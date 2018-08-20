@@ -1,0 +1,43 @@
+.navbar {
+	text-align: center;
+	background-color: #8e2525;
+	padding-top: 7px;
+	padding-bottom: 7px;
+	position: absolute;
+	width: 100%;
+	left: 0px; 
+	top: 0px; 
+	right:0px;
+	margin: 0px auto;
+}
+
+.navbar ul.right{
+	list-style-type: none; 
+	margin-left: auto;
+	margin-right: 0px;
+	float: right;
+}
+
+.navbar ul.left{
+	list-style-type: none; 
+	margin-left: 0px;
+	margin-right: auto;
+	float: left;
+}
+
+.navbar li {
+	display: inline;
+	vertical-align: top; 
+	margin: 45px; 
+	font-size: 20px; 
+	font-family: bookman; 
+}
+
+.navbar a {
+	color: white; 
+	text-decoration: none; 
+}
+
+.navbar a:hover {
+	color: black; 
+}
