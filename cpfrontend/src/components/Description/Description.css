@@ -1,0 +1,18 @@
+.desc {
+	margin-top: 480px; 
+	background-color: #8e2525; 
+}
+
+h2 {
+	text-align: center; 
+	font-size: 50px; 
+	padding-top: 30px;
+	color: white; 
+}
+
+p {
+	text-align: center; 
+	color: white;
+	padding-bottom: 30px;
+	font-size: 30px;
+}

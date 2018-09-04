@@ -1,0 +1,27 @@
+.feature {
+	display: inline-block;
+	width: 32%;
+	text-align: center; 
+	margin: 0px auto; 
+	border: 2px solid #8e2525; 
+	margin-right: 5px; 
+	margin-left: 5px; 
+
+}
+
+.features {
+	width: 100%; 
+	text-align: center; 
+	padding-bottom: 200px; 
+}
+
+.h1f {
+	font-size: 40px; 
+	text-decoration-line: underline;
+	color: #8e2525;
+}
+
+.pf {
+	color: black; 
+	font-size: 20px; 
+}

@@ -1,6 +1,15 @@
-const express = require('express'); 
+const express = require('express');
+var mongoose = require('mongoose'); 
 const app = express(); 
+const port = process.env.PORT || 6000;
 
-app.get('/', (req, res) => res.send('Hello World!'))
+var mongoDB = 'mongodb://127.0.0.1/cpbook'; 
+mongoose.connect(mongoDB); 
+mongoose.Promise = global.Promise; 
+var db = mongoose.connection; 
+db.on('error', console.error.bind(console, 'MongoDB connection error')); 
 
-app.listen(3001, () => console.log('listening on port 3001')); 
+app.listen(port, () => console.log(`Listening on port ${port}`)); 
+app.get('/', (req, res) => {
+	res.send("hello world")
+})

@@ -9,6 +9,8 @@
 	top: 0px; 
 	right:0px;
 	margin: 0px auto;
+	word-wrap: break-word;
+	overflow: hidden;
 }
 
 .navbar ul.right{
