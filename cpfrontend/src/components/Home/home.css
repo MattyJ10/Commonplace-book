@@ -1,8 +1,7 @@
 .banner {
-	background-image: url("../../assets/images/books.jpg");
+	background-image: url("../../Assets/images/books.jpg");
 	height: 100%;
 	width: 100%;
-	position: absolute;
 	left: 0px; 
 	right: 0px;
 	padding:0px;
@@ -19,7 +18,7 @@
 
 .title {
 	text-align: center; 
-	margin-top: 40px;
+	margin-top: 0px;
 	font-size: 110px;
 	color: #8e2525;
 }

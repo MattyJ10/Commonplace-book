@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import MyNavBar from './components/NavBar/navBar';
+import MyNavBar from './Components/NavBar/navBar';
+import { Provider } from "react-redux";
+import store from './Redux/store';
 
 class App extends React.Component {
 	render() {
@@ -12,4 +14,8 @@ class App extends React.Component {
 		
 }
 
-ReactDOM.render( <App />, document.getElementById('root'));
+ReactDOM.render( 
+	<Provider store={store}>
+		<App />
+	</Provider>
+	, document.getElementById('root'));

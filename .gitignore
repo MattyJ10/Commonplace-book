@@ -1,0 +1,3 @@
+cpbackend/node_modules/
+cpfronend/node_modules/
+*.DS_Store
