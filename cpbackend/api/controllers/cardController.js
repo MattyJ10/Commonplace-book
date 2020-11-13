@@ -2,22 +2,30 @@ const mongoose = require('mongoose');
 const Card = require('../models/card');
 const ObjectId = require('mongoose').Types.ObjectId;
 
-module.exports.addCard = function(req, res) {
-  let newCard = new Card(req.body.card);
-  newCard.save(err => {
-    if (err) {
-      console.log("ERROR ADDING CARD"); 
-      console.log(err);
-      return res.status(400).send({
-        msg: "Error Adding Card"
-      })
-    } else {
-      return res.status(201).send({
-        msg: "Card Created",
-        card: newCard
-      })
-    }
-  })
+module.exports.addCard = async function(req, res) {
+  let card;
+  let isEdit = req.body.isEdit;
+  if (req.body.isEdit) {
+    card = req.body.card;
+  } else {
+    card = new Card(req.body.card);
+  }
+  try {
+    let upsert = await Card.updateOne({ _id: new ObjectId(card._id) }, {$set: card}, {upsert: true});
+    // console.log(upsert); 
+    return res.status(200).send({
+      card,
+      isEdit
+    })
+  } catch (e) {
+    console.log("Error Saving Card"); 
+    console.log(e); 
+    return res.status(400).send({
+      msg: "Error Saving Card"
+    })
+  }
+  
+
 }
 
 module.exports.getCards = async function(req, res) {

@@ -17,7 +17,7 @@ export class ListCards extends React.Component {
             <tr>
               <th>Card Number</th>
               <th>Text</th>
-              <th colspan="2">Options</th>
+              <th colSpan="2">Options</th>
             </tr>
           </thead>
           <tbody>

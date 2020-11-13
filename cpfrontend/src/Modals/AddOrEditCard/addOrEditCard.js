@@ -10,19 +10,25 @@ export class AddOrEditCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      card: props.card || newCard
+      card: props.card || newCard,
+      isEdit: props.card ? true : false
     }
-    console.log()
   }
 
-  onType = (event) => {
-    this.setState({ card: {body: event.target.value }});
+  onBodyChange = (event) => {
+    const { card } = this.state;
+    let updatedCard = {
+      ...card,
+      body: event.target.value
+    }
+    this.setState({ card: updatedCard });
   }
 
   onSubmit = () => {
-    const { card } = this.state;
-    const { addCard } = this.props;
-    addCard(card);
+    const { card, isEdit } = this.state;
+    const { addCard, onClose } = this.props;
+    addCard(card, isEdit);
+    onClose();
   }
 
   render() {
@@ -35,11 +41,11 @@ export class AddOrEditCard extends React.Component {
             {title}
           </div>
           <div className="modal-body">
-            <textarea value={card.body} rows="10" cols="50" onChange={this.onType}></textarea>
+            <textarea value={card.body} rows="10" cols="50" onChange={this.onBodyChange}></textarea>
           </div>
           <div className="modal-footer">
-            <button onClick={onClose}>Close</button>
-            <button onClick={onClose}>Save</button>
+            <button onClick={() => onClose()}>Close</button>
+            <button onClick={() => this.onSubmit()}>Save</button>
           </div>
         </div>
       </div>

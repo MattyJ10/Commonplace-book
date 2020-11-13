@@ -23,7 +23,8 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json()); 
 
 var mongoDB = 'mongodb://127.0.0.1/cpbook'; 
-mongoose.connect(mongoDB); 
+mongoose.connect(mongoDB);
+mongoose.set('useFindAndModify', false);
 mongoose.Promise = global.Promise; 
 var db = mongoose.connection; 
 db.on('error', console.error.bind(console, 'MongoDB connection error')); 

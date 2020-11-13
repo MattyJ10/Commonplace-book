@@ -1,6 +1,6 @@
-import { ADD_CARD_BEGIN,
-         ADD_CARD_SUCCESS,
-         ADD_CARD_ERROR,
+import { UPSERT_CARD_BEGIN,
+         UPSERT_CARD_SUCCESS,
+         UPSERT_CARD_ERROR,
          DELETE_CARD_BEGIN,
          DELETE_CARD_SUCCESS,
          DELETE_CARD_ERROR,
@@ -17,20 +17,33 @@ let initialCardState = {
 
 function cardReducer(state = initialCardState, action){
     switch(action.type) {
-        case ADD_CARD_BEGIN: 
+        case UPSERT_CARD_BEGIN: 
           return {
             ...state, 
             loading: true,
             error: null
           }
-        case ADD_CARD_SUCCESS: 
-          return {
-            ...state,
-            cards: [...state.cards, action.payload.card],
-            loading: false,
-            error: null,
+        case UPSERT_CARD_SUCCESS:
+          if (action.payload.isEdit) {
+            let updatedCard = action.payload.card
+            return {
+              ...state,
+              cards: state.cards.map(card => card._id === updatedCard._id ? 
+                updatedCard :
+                card
+              ),
+              loading: false,
+              error: null,
+            }
+          } else {
+            return {
+              ...state,
+              cards: [...state.cards, action.payload.card],
+              loading: false,
+              error: null,
+            }
           }
-        case ADD_CARD_ERROR: 
+        case UPSERT_CARD_ERROR: 
           return {
             ...state, 
             loading: false,
@@ -46,7 +59,6 @@ function cardReducer(state = initialCardState, action){
           let currentList = state.cards;
           let index = currentList.findIndex(item => item._id === action.payload.id);
           let newList = [...currentList.slice(0, index), ...currentList.slice(index+1)]
-          console.log(newList); 
           return {
             ...state, 
             cards: newList,

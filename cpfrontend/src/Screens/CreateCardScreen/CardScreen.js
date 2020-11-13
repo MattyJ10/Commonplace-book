@@ -1,10 +1,8 @@
 import React from 'react'; 
 import './CardScreen.css';
 import { connect } from "react-redux";
-import { addCard, deleteCard, fetchCards } from '../../Redux/actions';
-import { AddCard } from '../../Components/AddCard/addCard';
+import { upsertCard, deleteCard, fetchCards } from '../../Redux/actions';
 import { ListCards } from '../../Components/ListCards/listCards';
-import { ButtonNavBar } from '../../Components/ButtonNavBar/buttonNavBar';
 import { AddOrEditCard } from '../../Modals/AddOrEditCard/addOrEditCard';
 
 
@@ -27,7 +25,6 @@ class CardScreen extends React.Component {
   }
 
   showModal = (card = null) => {
-    console.log(card);
     if (card) {
       this.setState({ showAddCardModal: true, editingCard: card })
     } else {
@@ -41,22 +38,12 @@ class CardScreen extends React.Component {
 
 	render() {
     let { showComponent, showAddCardModal, editingCard } = this.state;
-    let { cards, deleteCard, addCard } = this.props;
+    let { cards, deleteCard, upsertCard } = this.props;
     return (
       <div className="container">
-        {/* <ButtonNavBar
-          labels={['Add Card', 'List Cards']}
-          onNavChange={this.onNavChange}
-        ></ButtonNavBar> */}
         <div style={{textAlign: "center", padding: "20px"}}>
-          <button onClick={this.showModal}>Add Card</button>
+          <button onClick={() => this.showModal()}>Add Card</button>
         </div>
-        
-        {showComponent == "Add Card" && (
-          <AddCard
-            addCard={addCard}
-          ></AddCard>
-        )}
         {showComponent == "List Cards" && (
           <ListCards
             onDelete={deleteCard}
@@ -69,7 +56,7 @@ class CardScreen extends React.Component {
             title="Add New Card"
             onClose={this.closeModal}
             card={editingCard}
-            addCard={addCard}
+            addCard={upsertCard}
           ></AddOrEditCard>
         )}
       </div>
@@ -85,4 +72,4 @@ const mapStateToProps = state => {
   return obj; 
 }
 
-export default connect(mapStateToProps, {deleteCard, fetchCards, addCard} )(CardScreen); 
+export default connect(mapStateToProps, {deleteCard, fetchCards, upsertCard} )(CardScreen); 
