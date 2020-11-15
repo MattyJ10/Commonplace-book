@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { upsertCard, deleteCard, fetchCards } from '../../Redux/actions';
 import { ListCards } from '../../Components/ListCards/listCards';
 import { AddOrEditCard } from '../../Modals/AddOrEditCard/addOrEditCard';
+import CardGridView from '../../Components/CardGridView/cardGridView';
 
 
 class CardScreen extends React.Component {
@@ -11,7 +12,7 @@ class CardScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showComponent: "List Cards",
+      showComponent: "Grid View",
       showAddCardModal: false
     }
   }
@@ -50,6 +51,11 @@ class CardScreen extends React.Component {
             cards={cards}
             onEdit={this.showModal}
           ></ListCards>
+        )}
+        {showComponent == "Grid View" && (
+          <CardGridView
+            cards={cards}
+          ></CardGridView>
         )}
         {showAddCardModal && (
           <AddOrEditCard

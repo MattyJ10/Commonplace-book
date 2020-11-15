@@ -23,9 +23,10 @@
 }
 
 .modal-header {
-  background-color: #8e2525;
   color: white; 
   padding: 10px; 
+  background-color: var(--main-app-color);
+  font-size: 20px;
 }
 
 .modal-body {

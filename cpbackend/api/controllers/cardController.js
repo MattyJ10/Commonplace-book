@@ -11,8 +11,7 @@ module.exports.addCard = async function(req, res) {
     card = new Card(req.body.card);
   }
   try {
-    let upsert = await Card.updateOne({ _id: new ObjectId(card._id) }, {$set: card}, {upsert: true});
-    // console.log(upsert); 
+    await Card.updateOne({ _id: new ObjectId(card._id) }, {$set: card}, {upsert: true});
     return res.status(200).send({
       card,
       isEdit

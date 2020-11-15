@@ -41,7 +41,7 @@ export class AddOrEditCard extends React.Component {
             {title}
           </div>
           <div className="modal-body">
-            <textarea value={card.body} rows="10" cols="50" onChange={this.onBodyChange}></textarea>
+            <textarea style={{resize: "none"}} value={card.body} rows="10" cols="50" onChange={this.onBodyChange}></textarea>
           </div>
           <div className="modal-footer">
             <button onClick={() => onClose()}>Close</button>
