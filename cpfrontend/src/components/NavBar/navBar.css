@@ -1,16 +1,12 @@
 .navbar {
-	text-align: center;
 	padding-top: 7px;
 	padding-bottom: 7px;
-	position: absolute;
+	position: fixed;
 	width: 100%;
-	left: 0px; 
 	top: 0px; 
-	right:0px;
 	margin: 0px auto;
-	word-wrap: break-word;
-	overflow: hidden;
 	background-color: var(--main-app-color);
+	z-index: 5;
 }
 
 .navbar ul.right{

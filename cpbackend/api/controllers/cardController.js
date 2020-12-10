@@ -47,10 +47,10 @@ module.exports.deleteCard = function(req, res) {
   let id = req.params.id; 
   Card.findByIdAndRemove({_id: new ObjectId(id)}).exec((err, data) => {
     if (err) {
-      console.log("ERROR DELETING BUILDING: ", id);
+      console.log("ERROR DELETING Card: ", id);
       console.log(err); 
       return res.status(400).send({
-        msg: "Error Deleting Building"
+        msg: "Error Deleting Card"
       })
     } else {
       return res.status(200).send({

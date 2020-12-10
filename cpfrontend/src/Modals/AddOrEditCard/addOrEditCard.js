@@ -24,6 +24,24 @@ export class AddOrEditCard extends React.Component {
     this.setState({ card: updatedCard });
   }
 
+  onBookChange = (event) => {
+    const { card } = this.state;
+    let updatedCard = {
+      ...card,
+      book: event.target.value
+    }
+    this.setState({ card: updatedCard });
+  }
+
+  onTopicChange = (event) => {
+    const { card } = this.state;
+    let updatedCard = {
+      ...card,
+      topic: event.target.value
+    }
+    this.setState({ card: updatedCard });
+  }
+
   onSubmit = () => {
     const { card, isEdit } = this.state;
     const { addCard, onClose } = this.props;
@@ -40,8 +58,19 @@ export class AddOrEditCard extends React.Component {
           <div className="modal-header">
             {title}
           </div>
-          <div className="modal-body">
-            <textarea style={{resize: "none"}} value={card.body} rows="10" cols="50" onChange={this.onBodyChange}></textarea>
+          <div className="modal-input-container">
+            <div className="modal-input-group">
+              <label className="modal-input-label">Book</label>
+              <input className="modal-input" maxLength="100" value={card.book} onChange={this.onBookChange}></input>
+            </div>
+            <div className="modal-input-group">
+              <label className="modal-input-label">Topic</label>
+              <input className="modal-input" maxLength="100" value={card.topic} onChange={this.onTopicChange}></input>
+            </div>
+            <div className="modal-input-group">
+              <label className="modal-input-label">Body</label>
+              <textarea style={{resize: "none"}} value={card.body} rows="10" cols="36" onChange={this.onBodyChange}></textarea>
+            </div>
           </div>
           <div className="modal-footer">
             <button onClick={() => onClose()}>Close</button>

@@ -2,7 +2,7 @@ import React from 'react';
 import './navBar.css';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'; 
 import Home from '../Home/home'; 
-import CardScreen from '../../Screens/CreateCardScreen/CardScreen';
+import CardScreen from '../../Screens/CardScreen/CardScreen';
 
 export default class MyNavBar extends React.Component {
 	render() {

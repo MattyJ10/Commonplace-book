@@ -2,9 +2,9 @@ import React from 'react';
 import './CardScreen.css';
 import { connect } from "react-redux";
 import { upsertCard, deleteCard, fetchCards } from '../../Redux/actions';
-import { ListCards } from '../../Components/ListCards/listCards';
 import { AddOrEditCard } from '../../Modals/AddOrEditCard/addOrEditCard';
 import CardGridView from '../../Components/CardGridView/cardGridView';
+import CardFlashView from '../../Components/CardFlashView/cardFlashView';
 
 
 class CardScreen extends React.Component {
@@ -42,20 +42,25 @@ class CardScreen extends React.Component {
     let { cards, deleteCard, upsertCard } = this.props;
     return (
       <div className="container">
-        <div style={{textAlign: "center", padding: "20px"}}>
+        <div className="subnav-container">
           <button onClick={() => this.showModal()}>Add Card</button>
+          <button onClick={() => this.onNavChange('Grid View')}>Grid View</button>
+          <button onClick={() => this.onNavChange('Flash View')}>Flash View</button>
         </div>
-        {showComponent == "List Cards" && (
-          <ListCards
-            onDelete={deleteCard}
-            cards={cards}
-            onEdit={this.showModal}
-          ></ListCards>
-        )}
         {showComponent == "Grid View" && (
           <CardGridView
             cards={cards}
+            onDelete={deleteCard}
+            onEdit={this.showModal}
           ></CardGridView>
+        )}
+        {showComponent == "Flash View" && (
+          <CardFlashView
+            cards={cards}
+            onDelete={deleteCard}
+            onEdit={this.showModal}
+          >
+          </CardFlashView>
         )}
         {showAddCardModal && (
           <AddOrEditCard

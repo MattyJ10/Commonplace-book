@@ -11,12 +11,14 @@ export default class CardGridView extends React.Component {
   }
 
   render() {
-    const { cards } = this.props;
+    const { cards, onEdit, onDelete } = this.props;
     return (
       <div className="grid-view-container">
         {cards && cards.map((card, index) => {
           return <IndividualCard
             card={card}
+            onEdit={onEdit}
+            onDelete={onDelete}
           ></IndividualCard>
         })}
       </div>

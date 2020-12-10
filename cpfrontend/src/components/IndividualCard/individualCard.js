@@ -8,23 +8,27 @@ export default class IndividualCard extends React.Component {
     this.state = {
     }
   }
-
+  
   render() {
-    const { card } = this.props;
+    const { card, onDelete, onEdit, largerCard } = this.props;
+    let containerClass = "individual-card-container";
+    if (largerCard) {
+      containerClass += " larger";
+    }
     return (
-      <div className="individual-card-container">
+      <div className={containerClass}>
         <div className="individual-card-header">
-          <h1 className="individual-card-title">Book/Origin</h1>
-          <h2 className="individual-card-title">Topic</h2>
+          <h1 className="individual-card-title">{card.book}</h1>
+          <h2 className="individual-card-title">{card.topic}</h2>
         </div>
         <div className="individual-card-sub-header">
-          <button className="individual-card-header-button">Edit</button>
-          <button className="individual-card-header-button">Check Labels</button>
-          <button className="individual-card-header-button">Delete</button>
+          <button className="individual-card-header-button" onClick={() => onEdit(card)}>Edit</button>
+          {/* <button className="individual-card-header-button">Check Labels</button> */}
+          <button className="individual-card-header-button" onClick={() => onDelete(card._id)}>Delete</button>
         </div>
         <div className="individual-card-body-container">
           <div className="individual-card-body">
-            <div className="individual-card-body-content">{card.body}</div>
+            {card && card.body && <div className="individual-card-body-content">{card.body}</div>}
           </div>
         </div>
       </div>

@@ -3,3 +3,7 @@
   --secondary-app-color: #777777;
   --accent-color: #cccccc;
 }
+
+body {
+  margin:0px;
+}

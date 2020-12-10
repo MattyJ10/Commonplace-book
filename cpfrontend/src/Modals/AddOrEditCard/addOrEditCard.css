@@ -6,7 +6,7 @@
   height: 100vh;
   width: 100vw;
   text-align: center;
-  z-index: 1;
+  z-index: 100;
 }
 
 .modal-window {
@@ -15,11 +15,13 @@
   height: 60vh;
   display: flex;
   flex-direction: column;
-  border: 2px solid black;
-  border-radius: 5px;
+  border: 1px solid var(--main-app-color);
+  border-radius: 4px;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: white; 
+  min-width: 500px;
+  box-shadow: 3px 3px 10px #888888;
 }
 
 .modal-header {
@@ -36,4 +38,27 @@
 
 .modal-footer {
   padding: 10px; 
+}
+
+.modal-input-container {
+  width: 100%;
+}
+
+.modal-input-group {
+  width: 60%;
+  padding: 5px 0px;
+  margin: 0px auto;
+}
+
+.modal-input-label {
+  display: block;
+  margin: 5px auto;
+  text-align: left;
+  font-weight: bold;
+}
+
+.modal-input {
+  /* width: 60%; */
+  width: 100%;
+  margin: 0px auto;
 }
