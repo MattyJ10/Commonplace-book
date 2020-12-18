@@ -19,6 +19,7 @@ export default class CardGridView extends React.Component {
             card={card}
             onEdit={onEdit}
             onDelete={onDelete}
+            key={card._id}
           ></IndividualCard>
         })}
       </div>

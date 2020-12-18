@@ -9,7 +9,6 @@ export default class CardScreen extends React.Component {
     this.state = {
       currentCard: 0
     }
-    console.log(props.cards);
   }
 
   incrementCard = () => {
@@ -36,16 +35,18 @@ export default class CardScreen extends React.Component {
 
   onSuccess = () => {
     console.log("success"); 
-    const {currentCard} = this.state; 
-    let updateCard = currentCard - 1; 
-    this.setState({currentCard: updateCard});
+    const {currentCard} = this.state;
+    let curr = currentCard; 
+    curr -= 1; 
+    this.setState({ currentCard: curr })
   }
 
   onFailure = () => {
     console.log("error deleting card from flash view");
+    this.incrementCard();
   }
 
-  deleteFromFlashView = async (cardId) => {
+  deleteFromFlashView = (cardId) => {
     const { onDelete } = this.props
     onDelete(cardId).then(this.onSuccess, this.onFailure)
   }

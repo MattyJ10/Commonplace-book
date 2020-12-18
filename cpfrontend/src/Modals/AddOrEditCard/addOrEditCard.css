@@ -45,8 +45,8 @@
 }
 
 .modal-input-group {
-  width: 60%;
-  padding: 5px 0px;
+  width: 70%;
+  padding: 10px 0px;
   margin: 0px auto;
 }
 
@@ -61,4 +61,30 @@
   /* width: 60%; */
   width: 100%;
   margin: 0px auto;
+}
+
+.modal-input-error {
+  color: red; 
+  font-style: italic;
+  margin: 2px;
+  font-size: 13px;
+  text-align: left;
+  position: absolute;
+}
+
+.modal-inline-button {
+  width: 20%; 
+  display: inline-block;
+  font-size: 12px;
+}
+
+.modal-sd-inline-container {
+  display:inline-block;
+  width: 70%;
+}
+
+.modal-input-button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }

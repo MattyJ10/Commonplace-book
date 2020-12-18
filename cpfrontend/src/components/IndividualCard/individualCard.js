@@ -18,13 +18,12 @@ export default class IndividualCard extends React.Component {
     return (
       <div className={containerClass}>
         <div className="individual-card-header">
-          <h1 className="individual-card-title">{card.book}</h1>
-          <h2 className="individual-card-title">{card.topic}</h2>
+          <h1 className="individual-card-title">{card.book.displayTitle}</h1>
+          <h2 className="individual-card-title">{card.topic.displayTopic}</h2>
         </div>
         <div className="individual-card-sub-header">
-          <button className="individual-card-header-button" onClick={() => onEdit(card)}>Edit</button>
-          {/* <button className="individual-card-header-button">Check Labels</button> */}
-          <button className="individual-card-header-button" onClick={() => onDelete(card._id)}>Delete</button>
+          <button className="main-button" onClick={() => onEdit(card)}>Edit</button>
+          <button className="main-button" onClick={() => onDelete(card._id)}>Delete</button>
         </div>
         <div className="individual-card-body-container">
           <div className="individual-card-body">

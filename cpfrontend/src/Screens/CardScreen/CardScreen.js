@@ -1,7 +1,9 @@
 import React from 'react'; 
 import './CardScreen.css';
 import { connect } from "react-redux";
-import { upsertCard, deleteCard, fetchCards } from '../../Redux/actions';
+import { upsertCard, deleteCard, fetchCards } from '../../Redux/actions/cardActions';
+import { fetchBooks, addBook } from '../../Redux/actions/bookActions';
+import { fetchTopics, addTopic } from '../../Redux/actions/topicActions';
 import { AddOrEditCard } from '../../Modals/AddOrEditCard/addOrEditCard';
 import CardGridView from '../../Components/CardGridView/cardGridView';
 import CardFlashView from '../../Components/CardFlashView/cardFlashView';
@@ -19,6 +21,8 @@ class CardScreen extends React.Component {
 
   componentDidMount() {
     this.props.fetchCards();
+    this.props.fetchBooks();
+    this.props.fetchTopics();
   }
 
   onNavChange = (destination) => {
@@ -39,13 +43,22 @@ class CardScreen extends React.Component {
 
 	render() {
     let { showComponent, showAddCardModal, editingCard } = this.state;
-    let { cards, deleteCard, upsertCard } = this.props;
+    let { cards, deleteCard, upsertCard, addBook, books, addTopic, topics } = this.props;
     return (
       <div className="container">
         <div className="subnav-container">
-          <button onClick={() => this.showModal()}>Add Card</button>
-          <button onClick={() => this.onNavChange('Grid View')}>Grid View</button>
-          <button onClick={() => this.onNavChange('Flash View')}>Flash View</button>
+          <button 
+            onClick={() => this.showModal()}
+            className="main-button"
+          >Add Card</button>
+          <button 
+            onClick={() => this.onNavChange('Grid View')}
+            className="main-button"
+          >Grid View</button>
+          <button 
+            onClick={() => this.onNavChange('Flash View')}
+            className="main-button"
+          >Flash View</button>
         </div>
         {showComponent == "Grid View" && (
           <CardGridView
@@ -68,6 +81,10 @@ class CardScreen extends React.Component {
             onClose={this.closeModal}
             card={editingCard}
             addCard={upsertCard}
+            books={books}
+            addBook={addBook}
+            topics={topics}
+            addTopic={addTopic}
           ></AddOrEditCard>
         )}
       </div>
@@ -78,9 +95,20 @@ class CardScreen extends React.Component {
 
 const mapStateToProps = state => {
   let obj = {
-    cards: state.cards
+    cards: state.cardReducer.cards,
+    books: state.bookReducer.books,
+    topics: state.topicReducer.topics
   }
   return obj; 
 }
 
-export default connect(mapStateToProps, {deleteCard, fetchCards, upsertCard} )(CardScreen); 
+export default connect(mapStateToProps, {
+  deleteCard, 
+  fetchCards, 
+  upsertCard, 
+  fetchBooks, 
+  addBook,
+  fetchTopics,
+  addTopic
+})
+(CardScreen); 
