@@ -1,6 +1,8 @@
+import { hideError } from './errorActions';
+
 export const FETCH_CARDS_BEGIN   = 'FETCH_CARDS_BEGIN';
 export const FETCH_CARDS_SUCCESS = 'FETCH_CARDS_SUCCESS';
-export const FETCH_CARDS_FAILURE = 'FETCH_CARDS_FAILURE';
+export const FETCH_CARDS_ERROR = 'FETCH_CARDS_ERROR';
 
 export const UPSERT_CARD_BEGIN = 'UPSERT_CARD_BEGIN'
 export const UPSERT_CARD_SUCCESS = 'UPSERT_CARD_SUCCESS'
@@ -14,40 +16,41 @@ export const upsertCardBegin = () => ({
   type: UPSERT_CARD_BEGIN,
 });
 
-export const upsertCardSuccess = (response, isEdit) => ({
+export const upsertCardSuccess = (data) => ({
   type: UPSERT_CARD_SUCCESS,
-  payload: { card: response.card, msg: response.msg, isEdit }
+  payload: { card: data.card, isEdit: data.isEdit }
 });
 
 export const upsertCardError = error => ({
   type: UPSERT_CARD_ERROR,
-  payload: { msg: error.msg }
+  error
 });
 
 export function upsertCard(card, isEdit) {
-  return dispatch => {
+  return async dispatch => {
     dispatch(upsertCardBegin());
     let body = {
       card,
       isEdit
     }
-    return fetch("http://localhost:5005/api/addCard", {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(body)
-    })
-      .then(handleErrors)
-      .then(res => res.json())
-      .then(json => {
-        if (json.isEdit) {
-          dispatch(upsertCardSuccess(json, true));
-        } else {
-          dispatch(upsertCardSuccess(json, false));
-        }
-      })
-      .catch(error => dispatch(upsertCardError(error)));
+    try {
+      let request = await fetch("http://localhost:5005/api/addCard", {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      });
+      let response = await request.json();
+
+      if (response.status == "ok") {
+        dispatch(upsertCardSuccess(response.data))
+      } else {
+        dispatch(upsertCardError(response.error))
+      }
+    } catch(error) {
+      dispatch(upsertCardError(error))
+    }
   }
 }
 
@@ -60,20 +63,25 @@ export const deleteCardSuccess = id => ({
   payload: { id }
 })
 
-export const deleteCardError = () => ({
-  type: DELETE_CARD_ERROR
+export const deleteCardError = error => ({
+  type: DELETE_CARD_ERROR,
+  error
 })
 
 export function deleteCard(id) {
-  return dispatch => {
+  return async dispatch => {
     dispatch(deleteCardBegin()); 
-    return fetch("http://localhost:5005/api/deleteCard/" + id)
-      .then(handleErrors)
-      .then(res => res.json())
-      .then(json => {
-        dispatch(deleteCardSuccess(json.id));
-      }) 
-      .catch(error => dispatch(deleteCardError(error)));
+    try {
+      let request = await fetch("http://localhost:5005/api/deleteCard/" + id);
+      let response = await request.json();
+      if (response.status == "ok") {
+        dispatch(deleteCardSuccess(response.data));
+      } else {
+        dispatch(deleteCardError(response.error));
+      }
+    } catch(error) {
+      dispatch(deleteCardError(error))
+    }
   }
 }
 
@@ -86,29 +94,25 @@ export const fetchCardsSuccess = cards => ({
   payload: { cards }
 });
 
-export const fetchCardsFailure = error => ({
-  type: FETCH_CARDS_FAILURE,
-  payload: { error }
+export const fetchCardsError = error => ({
+  type: FETCH_CARDS_ERROR,
+  error
 });
 
 export function fetchCards() {
-  return dispatch => {
+  return async dispatch => {
     dispatch(fetchCardsBegin());
-    return fetch("http://localhost:5005/api/getCards")
-      .then(handleErrors)
-      .then(res => res.json())
-      .then(json => {
-        dispatch(fetchCardsSuccess(json.cards));
-        return json.cards;
-      })
-      .catch(error => dispatch(fetchCardsFailure(error)));
+    try {
+      let request = await fetch("http://localhost:5005/api/getCards");
+      let response = await request.json();
+      if (response.status == "ok") {
+        dispatch(fetchCardsSuccess(response.data));
+      } else {
+        dispatch(fetchCardsError(response.error));
+      }
+      return;
+    } catch(error) {
+      dispatch(fetchCardsError(error));
+    }
   };
-}
-
-// Handle HTTP errors since fetch won't.
-function handleErrors(response) {
-  if (!response.ok) {
-    throw Error(response.statusText);
-  }
-  return response;
 }

@@ -1,4 +1,4 @@
-.banner {
+.home-banner {
 	background-image: url("../../Assets/images/books.jpg");
 	height: 100%;
 	width: 100%;
@@ -7,7 +7,7 @@
 	padding:0px;
 }
 
-.container {
+.home-container {
 	margin-top: 69px;
 	width: 100%;
 	background-color:#f9f9f9;
@@ -15,7 +15,7 @@
 	min-height: calc( 100vh - 89px);
 }
 
-.title {
+.home-title {
 	text-align: center; 
 	margin-top: 0px;
 	font-size: 110px;

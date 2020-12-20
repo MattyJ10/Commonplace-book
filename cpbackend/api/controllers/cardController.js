@@ -13,18 +13,21 @@ module.exports.addCard = async function(req, res) {
   try {
     await Card.updateOne({ _id: new ObjectId(card._id) }, {$set: card}, {upsert: true});
     return res.status(200).send({
-      card,
-      isEdit
+      status: "ok",
+      data: {card, isEdit},
+      message: undefined,
+      error: undefined
     })
   } catch (e) {
     console.log("Error Saving Card"); 
     console.log(e); 
     return res.status(400).send({
-      msg: "Error Saving Card"
+      status: "error",
+      data: {},
+      message: undefined,
+      error: "Error Saving Card"
     })
   }
-  
-
 }
 
 module.exports.getCards = async function(req, res) {
@@ -32,13 +35,19 @@ module.exports.getCards = async function(req, res) {
   try {
     cards = await Card.find({});
     return res.status(200).send({
-      cards: cards
+      status: "ok",
+      data: cards,
+      message: undefined,
+      error: undefined
     })
   } catch(e) {
     console.log("ERROR GETTING CARDS"); 
     console.log(e); 
     return res.status(400).send({
-      msg: "Error Getting Cards"
+      status: "error",
+      data: {},
+      message: undefined,
+      error: "Error Getting Cards"
     })
   }
 }
@@ -50,11 +59,17 @@ module.exports.deleteCard = function(req, res) {
       console.log("ERROR DELETING Card: ", id);
       console.log(err); 
       return res.status(400).send({
-        msg: "Error Deleting Card"
+        status: "error",
+        data: {},
+        message: undefined,
+        error: "Error Deleting Card"
       })
     } else {
       return res.status(200).send({
-        id
+        status: "ok",
+        data: id,
+        message: undefined,
+        error: undefined
       });
     }
   })

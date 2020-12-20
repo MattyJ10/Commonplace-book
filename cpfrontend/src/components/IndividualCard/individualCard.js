@@ -13,7 +13,7 @@ export default class IndividualCard extends React.Component {
     const { card, onDelete, onEdit, largerCard } = this.props;
     let containerClass = "individual-card-container";
     if (largerCard) {
-      containerClass += " larger";
+      containerClass += " larger-individual-card-container";
     }
     return (
       <div className={containerClass}>

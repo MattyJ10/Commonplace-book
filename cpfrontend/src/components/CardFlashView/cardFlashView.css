@@ -5,8 +5,7 @@
 
 .flash-card-container {
   margin: 0px auto;
-  width: 60%;
-  min-width: 550px;
+  width: 600px;
   background-color: #efefef;
   border-radius: 20px;
   box-shadow: 3px 3px 4px #cccccc;

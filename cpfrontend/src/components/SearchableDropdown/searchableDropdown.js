@@ -19,11 +19,11 @@ export default class SearchableDropdown extends React.Component {
 
   hideList = () => {
     const { selectedValue } = this.state; 
-    const { displayField } = this.props;
+    const { displayField, values } = this.props;
     if (selectedValue) {
       this.setState({ filterValue: selectedValue[displayField], showList: false })
     } else {
-      this.setState({ showList: false })
+      this.setState({ filterValue: "" , showList: false, filteredList: values})
     }
   }
 

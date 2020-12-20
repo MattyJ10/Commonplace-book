@@ -17,20 +17,25 @@ export const fetchTopicsSuccess = topics => ({
 
 export const fetchTopicsFailure = error => ({
   type: FETCH_TOPICS_FAILURE,
-  payload: { error }
+  error
 });
 
 export function fetchTopics() {
-  return dispatch => {
+  return async dispatch => {
     dispatch(fetchTopicsBegin());
-    return fetch("http://localhost:5005/api/getTopics")
-      .then(handleErrors)
-      .then(res => res.json())
-      .then(json => {
-        dispatch(fetchTopicsSuccess(json.topics));
-        return json.topics;
-      })
-      .catch(error => dispatch(fetchTopicsFailure(error)));
+    
+    try {
+      let request = await fetch("http://localhost:5005/api/getTopics");
+      let response = await request.json();
+
+      if (response.status == "ok") {
+        dispatch(fetchTopicsSuccess(response.data));
+      } else {
+        dispatch(fetchTopicsFailure(response.error))
+      }
+    } catch(error) {
+      dispatch(fetchTopicsFailure(error))
+    }
   }
 }
 
@@ -45,34 +50,31 @@ export const addTopicSuccess = topic => ({
 
 export const addTopicFailure = error => ({
   type: ADD_TOPIC_FAILURE,
-  payload: { error }
+  error
 });
 
 export function addTopic(topic) {
-  return dispatch => {
-    dispatch(addTopicBegin()); 
-    let body = {
-      topic
+  return async dispatch => {
+    dispatch(addTopicBegin());
+    try {
+      let body = {
+        topic
+      }
+      let request = await fetch("http://localhost:5005/api/addTopic", {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      });
+      let response = await request.json();
+      if (response.status == "ok") {
+        dispatch(addTopicSuccess(response.data));
+      } else {
+        dispatch(addTopicFailure(response.error));
+      }
+    } catch(error) {
+      dispatch(addTopicFailure(error));
     }
-    return fetch("http://localhost:5005/api/addTopic", {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(body)
-    })
-      .then(handleErrors)
-      .then(res => res.json())
-      .then(json => {
-        dispatch(addTopicSuccess(json));
-      })
-      .catch(error => dispatch(addTopicFailure(error)));
   }
-}
-
-function handleErrors(response) {
-  if (!response.ok) {
-    throw Error(response.statusText);
-  }
-  return response;
 }

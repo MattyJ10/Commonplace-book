@@ -1,5 +1,5 @@
 import React from 'react'; 
-import './addTopic.css';
+import '../../Stylesheets/modal.css';
 
 export class AddTopic extends React.Component {
 

@@ -7,7 +7,8 @@ export default class CardScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentCard: 0
+      currentCard: 0,
+      deleting: false
     }
   }
 
@@ -34,11 +35,16 @@ export default class CardScreen extends React.Component {
   }
 
   onSuccess = () => {
-    console.log("success"); 
     const {currentCard} = this.state;
-    let curr = currentCard; 
-    curr -= 1; 
-    this.setState({ currentCard: curr })
+    const { cards } = this.props;
+    if (currentCard == cards.length) {
+      let curr = currentCard; 
+      curr -= 1; 
+      this.setState({ currentCard: curr, deleting: false  })
+    } else {
+      this.setState({ deleting: false  })
+    }
+    
   }
 
   onFailure = () => {
@@ -48,31 +54,44 @@ export default class CardScreen extends React.Component {
 
   deleteFromFlashView = (cardId) => {
     const { onDelete } = this.props
-    onDelete(cardId).then(this.onSuccess, this.onFailure)
+    this.setState({ deleting: true })
+    setTimeout(() => {
+      onDelete(cardId).then(this.onSuccess, this.onFailure)
+    }, 500)
   }
 
   render() {
-    const { cards, onEdit, onDelete } = this.props;
-    const { currentCard } = this.state; 
+    const { cards, onEdit } = this.props;
+    const { currentCard, deleting } = this.state; 
     return (
       <div className="flash-view-container">
         <div className="flash-card-container">
-          <div className="flash-card-header">
-            {"Card " + (currentCard + 1) + "/" + cards.length}
-          </div>
-          <div className="flash-card-body">
-            <IndividualCard
-              card={cards[currentCard]}
-              onEdit={onEdit}
-              onDelete={this.deleteFromFlashView}
-              largerCard
-            >
-            </IndividualCard>
-          </div>
-          <div className="flash-card-footer">
-            <button onClick={() => this.decrementCard()}>Previous Card</button>
-            <button onClick={() => this.incrementCard()}>Next Card</button>
-          </div>
+          {!deleting && cards.length > 0 && [
+            <div className="flash-card-header" key="flash-card-header">
+             {"Card " + (currentCard + 1) + "/" + cards.length}
+            </div>,
+            <div className="flash-card-body" key="flash-card-body">
+              <IndividualCard
+                card={cards[currentCard]}
+                onEdit={onEdit}
+                onDelete={this.deleteFromFlashView}
+                largerCard
+              >
+              </IndividualCard>
+            </div>
+          ]}
+          {deleting && (
+            <p>"Deleting Card..."</p>
+          )}
+          {cards.length == 0 && (
+            <p>No Cards In View</p>
+          )}
+          {cards.length > 0 && (
+            <div className="flash-card-footer">
+              <button onClick={() => this.decrementCard()}>Previous Card</button>
+              <button onClick={() => this.incrementCard()}>Next Card</button>
+            </div>
+          )}
         </div>
       </div>
     )

@@ -1,5 +1,5 @@
 import React from 'react'; 
-import './addBook.css';
+import '../../Stylesheets/modal.css';
 
 export class AddBook extends React.Component {
 

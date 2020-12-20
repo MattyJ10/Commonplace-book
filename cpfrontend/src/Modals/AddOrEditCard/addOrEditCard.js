@@ -1,5 +1,5 @@
 import React from 'react'; 
-import './addOrEditCard.css';
+import '../../Stylesheets/modal.css';
 import SearchableDropdown from '../../Components/SearchableDropdown/searchableDropdown';
 import { AddTopic } from '../../Components/AddTopic/addTopic';
 import { AddBook } from '../../Components/AddBook/addBook';

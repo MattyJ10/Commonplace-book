@@ -17,20 +17,24 @@ export const fetchBooksSuccess = books => ({
 
 export const fetchBooksFailure = error => ({
   type: FETCH_BOOKS_FAILURE,
-  payload: { error }
+  error
 });
 
 export function fetchBooks() {
-  return dispatch => {
+  return async dispatch => {
     dispatch(fetchBooksBegin());
-    return fetch("http://localhost:5005/api/getBooks")
-      .then(handleErrors)
-      .then(res => res.json())
-      .then(json => {
-        dispatch(fetchBooksSuccess(json.books));
-        return json.books;
-      })
-      .catch(error => dispatch(fetchBooksFailure(error)));
+    try {
+      let request = await fetch("http://localhost:5005/api/getBooks");
+      let response = await request.json(); 
+
+      if (response.status == "ok") {
+        dispatch(fetchBooksSuccess(response.data));
+      } else {
+        dispatch(fetchBooksFailure(response.error))
+      }
+    } catch(error) {
+      dispatch(fetchBooksFailure(error))
+    }
   }
 }
 
@@ -45,34 +49,32 @@ export const addBookSuccess = book => ({
 
 export const addBookFailure = error => ({
   type: ADD_BOOK_FAILURE,
-  payload: { error }
+  error
 });
 
 export function addBook(book) {
-  return dispatch => {
+  return async dispatch => {
     dispatch(addBookBegin()); 
-    let body = {
-      book
-    }
-    return fetch("http://localhost:5005/api/addBook", {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(body)
-    })
-      .then(handleErrors)
-      .then(res => res.json())
-      .then(json => {
-        dispatch(addBookSuccess(json));
+    try {
+      let body = {
+        book
+      };
+      let request = await fetch("http://localhost:5005/api/addBook", {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
       })
-      .catch(error => dispatch(addBookFailure(error)));
-  }
-}
+      let response = await request.json();
 
-function handleErrors(response) {
-  if (!response.ok) {
-    throw Error(response.statusText);
+      if (response.status == "ok") {
+        dispatch(addBookSuccess(response.data));
+      } else {
+        dispatch(addBookFailure(response.error))
+      }
+    } catch(error) {
+      dispatch(addBookFailure(error))
+    }
   }
-  return response;
 }

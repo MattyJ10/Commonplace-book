@@ -7,13 +7,19 @@ module.exports.getTopics = async function(req, res) {
   try {
     topics = await Topic.find({});
     return res.status(200).send({
-      topics: topics
+      status: "ok",
+      data: topics,
+      message: undefined,
+      error: undefined
     })
   } catch(e) {
     console.log("ERROR GETTING TOPICS"); 
     console.log(e); 
     return res.status(400).send({
-      msg: "Error Getting Topics"
+      status: "error",
+      data: {},
+      message: undefined,
+      error: "Error Getting Topics"
     })
   }
 }
@@ -25,18 +31,27 @@ module.exports.addTopic = async function(req, res) {
       if (err) {
         console.log(err);
         return res.status(400).send({
-          msg: "Error Saving Topic"
+          status: "error",
+          data: {},
+          message: undefined,
+          error: "Error Saving Topic"
         })
       } else {
         return res.status(200).send({
-          topic
+          status: "ok",
+          data: topic,
+          message: undefined,
+          error: undefined
         })
       }
     })
   } catch (e) {
     console.log(e); 
     return res.status(400).send({
-      msg: "Error Saving Topic"
+      status: "error",
+      data: {},
+      message: undefined,
+      error: "Error Saving Topic"
     })
   }
 }

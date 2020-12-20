@@ -45,7 +45,7 @@ class CardScreen extends React.Component {
     let { showComponent, showAddCardModal, editingCard } = this.state;
     let { cards, deleteCard, upsertCard, addBook, books, addTopic, topics } = this.props;
     return (
-      <div className="container">
+      <div className="home-container">
         <div className="subnav-container">
           <button 
             onClick={() => this.showModal()}
@@ -97,7 +97,8 @@ const mapStateToProps = state => {
   let obj = {
     cards: state.cardReducer.cards,
     books: state.bookReducer.books,
-    topics: state.topicReducer.topics
+    topics: state.topicReducer.topics,
+    error: state.errorReducer.error
   }
   return obj; 
 }

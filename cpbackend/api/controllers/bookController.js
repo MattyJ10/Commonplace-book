@@ -7,13 +7,19 @@ module.exports.getBooks = async function(req, res) {
   try {
     books = await Book.find({});
     return res.status(200).send({
-      books: books
+      status: "ok",
+      data: books,
+      messages: undefined,
+      error: undefined
     })
   } catch(e) {
     console.log("ERROR GETTING BOOKS"); 
     console.log(e); 
     return res.status(400).send({
-      msg: "Error Getting Books"
+      status: "error",
+      data: {},
+      messages: undefined,
+      error: "Error Getting Books"
     })
   }
 }
@@ -25,18 +31,27 @@ module.exports.addBook = async function(req, res) {
       if (err) {
         console.log(err);
         return res.status(400).send({
-          msg: "Error Saving Book"
+          status: "error",
+          data: {},
+          messages: undefined,
+          error: "Error Saving Book"
         })
       } else {
         return res.status(200).send({
-          book
+          status: "ok",
+          data: book,
+          messages: undefined,
+          error: undefined
         })
       }
     })
   } catch (e) {
     console.log(e); 
     return res.status(400).send({
-      msg: "Error Saving Book"
+      status: "error",
+      data: {},
+      messages: undefined,
+      error: "Error Saving Book"
     })
   }
 }
