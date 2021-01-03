@@ -1,17 +1,16 @@
 import { 
-  fetchBooksBegin, 
   fetchBooksSuccess, 
   fetchBooksFailure, 
-  addBookBegin,
   addBookSuccess,
   addBookFailure,
+  deleteBookSuccess,
+  deleteBookFailure,
 } from '../Redux/actions/bookActions';
 import { setError } from '../Redux/actions/messageActions';
 import { fetchWithTimeout } from './apiUtils'; 
 
 export function fetchBooks() {
   return async dispatch => {
-    dispatch(fetchBooksBegin());
     try {
       let request = await fetchWithTimeout("http://localhost:5005/api/getBooks", {timeout: 10000});
       let response = await request.json(); 
@@ -34,7 +33,6 @@ export function fetchBooks() {
 
 export function addBook(book) {
   return async dispatch => {
-    dispatch(addBookBegin()); 
     try {
       let body = {
         book
@@ -59,6 +57,32 @@ export function addBook(book) {
         dispatch(setError("Timeout occurred adding book, try again later"))
       } else {
         dispatch(addBookFailure(error))
+      }
+      throw error; 
+    }
+  }
+}
+
+export function deleteBook(id) {
+  return async dispatch => {
+    try {
+      let request = await fetchWithTimeout("http://localhost:5005/api/deleteBook/" + id, 
+        {
+          timeout: 10000,
+          method: 'delete',
+        }
+      );
+      let response = await request.json(); 
+      if (response.status == "ok") {
+        dispatch(deleteBookSuccess(response.data, response.message));
+      } else {
+        dispatch(deleteBookFailure(response.error))
+      }
+    } catch(error) {
+      if (error.name === 'AbortError') {
+        dispatch(setError("Timeout occurred deleting book, try again later"))
+      } else {
+        dispatch(deleteBookFailure(error))
       }
       throw error; 
     }

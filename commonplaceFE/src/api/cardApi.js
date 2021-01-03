@@ -14,7 +14,6 @@ import { fetchWithTimeout } from './apiUtils';
 
 export function upsertCard(card, isEdit) {
   return async dispatch => {
-    dispatch(upsertCardBegin());
     let body = {
       card,
       isEdit
@@ -49,7 +48,6 @@ export function upsertCard(card, isEdit) {
 
 export function deleteCard(id) {
   return async dispatch => {
-    dispatch(deleteCardBegin()); 
     try {
       let request = await fetchWithTimeout("http://localhost:5005/api/deleteCard/" + id, {timeout: 10000});
       let response = await request.json();
@@ -71,7 +69,6 @@ export function deleteCard(id) {
 
 export function fetchCards() {
   return async dispatch => {
-    dispatch(fetchCardsBegin());
     try {
       let request = await fetchWithTimeout("http://localhost:5005/api/getCards", {timeout: 10000});
       let response = await request.json();

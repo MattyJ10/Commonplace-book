@@ -1,14 +1,11 @@
-export const FETCH_BOOKS_BEGIN   = 'FETCH_BOOKS_BEGIN';
 export const FETCH_BOOKS_SUCCESS = 'FETCH_BOOKS_SUCCESS';
 export const FETCH_BOOKS_FAILURE = 'FETCH_BOOKS_FAILURE';
 
-export const ADD_BOOK_BEGIN   = 'ADD_BOOK_BEGIN';
 export const ADD_BOOK_SUCCESS = 'ADD_BOOK_SUCCESS';
 export const ADD_BOOK_FAILURE = 'ADD_BOOK_FAILURE';
 
-export const fetchBooksBegin = () => ({
-  type: FETCH_BOOKS_BEGIN
-});
+export const DELETE_BOOK_SUCCESS = 'DELETE_BOOK_SUCCESS';
+export const DELETE_BOOK_FAILURE = 'DELETE_BOOK_FAILURE';
 
 export const fetchBooksSuccess = (books) => ({
   type: FETCH_BOOKS_SUCCESS,
@@ -20,10 +17,6 @@ export const fetchBooksFailure = error => ({
   error
 });
 
-export const addBookBegin = () => ({
-  type: ADD_BOOK_BEGIN
-});
-
 export const addBookSuccess = (book, success) => ({
   type: ADD_BOOK_SUCCESS,
   payload: { book },
@@ -32,5 +25,16 @@ export const addBookSuccess = (book, success) => ({
 
 export const addBookFailure = error => ({
   type: ADD_BOOK_FAILURE,
+  error
+});
+
+export const deleteBookSuccess = (id, success) => ({
+  type: DELETE_BOOK_SUCCESS,
+  id,
+  success
+});
+
+export const deleteBookFailure = error => ({
+  type: DELETE_BOOK_FAILURE,
   error
 });

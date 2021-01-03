@@ -2,13 +2,13 @@ import React from 'react';
 import './CardScreen.css';
 import { connect } from "react-redux";
 import { upsertCard, deleteCard, fetchCards } from '../../api/cardApi';
-import { fetchBooks, addBook } from '../../api/bookApi';
-import { fetchTopics, addTopic } from '../../api/topicApi';
+import { fetchBooks, addBook, deleteBook } from '../../api/bookApi';
+import { fetchTopics, addTopic, deleteTopic } from '../../api/topicApi';
 import AddOrEditCard from '../../Modals/AddOrEditCard/addOrEditCard';
 import CardGridView from '../../Components/CardGridView/cardGridView';
 import CardFlashView from '../../Components/CardFlashView/cardFlashView';
 import LoadingSpinner from '../../Components/LoadingSpinner/loadingSpinner';
-import ManageBooks from '../../Components/ManageBooks/manageBooks'; 
+import ManageItems from '../../Components/ManageItems/manageItems'; 
 import BookGridView from '../../Components/BookGridView/bookGridView';
 
 class CardScreen extends React.Component {
@@ -52,13 +52,19 @@ class CardScreen extends React.Component {
     }
   }
 
+  onEditItem = (type, item) => {
+    console.log(type);
+    console.log(item);
+    console.log("Need to show edit modal for item!");
+  }
+
   closeModal = () => {
     this.setState({ showAddCardModal: false })
   }
 
 	render() {
     let { showComponent, showAddCardModal, editingCard, loading } = this.state;
-    let { cards, deleteCard, upsertCard, addBook, books, addTopic, topics } = this.props;
+    let { cards, deleteCard, upsertCard, addBook, deleteBook, books, addTopic, deleteTopic, topics } = this.props;
     return (
       <div className="home-container">
         <div className="subnav-container">
@@ -82,6 +88,11 @@ class CardScreen extends React.Component {
             className="main-button"
             disabled={loading}
           >Manage Books</button>
+          <button 
+            onClick={() => this.onNavChange('Manage Topics')}
+            className="main-button"
+            disabled={loading}
+          >Manage Topics</button>
         </div>
         {showComponent == "Grid View" && !loading && (
           <CardGridView
@@ -99,12 +110,27 @@ class CardScreen extends React.Component {
           </CardFlashView>
         )}
         {showComponent == "Manage Books" && !loading && (
-          // <ManageBooks
+          <ManageItems
+            items={books}
+            tableTitle="Books"
+            mainField="displayTitle"
+            deleteBook={deleteBook}
+            handleEdit={this.onEditItem}
+            type="Book"
+          ></ManageItems>
+          // <BookGridView
           //   books={books}
-          // ></ManageBooks>
-          <BookGridView
-            books={books}
-          ></BookGridView>
+          // ></BookGridView>
+        )}
+        {showComponent == "Manage Topics" && !loading && (
+          <ManageItems
+            items={topics}
+            tableTitle="Topics"
+            mainField="displayTopic"
+            deleteTopic={deleteTopic}
+            handleEdit={this.onEditItem}
+            type="Topic"
+          ></ManageItems>
         )}
         {loading && (
           <LoadingSpinner></LoadingSpinner>
@@ -141,8 +167,9 @@ export default connect(mapStateToProps, {
   upsertCard, 
   fetchBooks, 
   addBook,
+  deleteBook,
   fetchTopics,
-  addTopic
+  addTopic,
+  deleteTopic,
 })
 (CardScreen)
-// (isLoadingHOC(CardScreen, "Loading Cards")); 

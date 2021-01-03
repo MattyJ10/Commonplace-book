@@ -55,3 +55,24 @@ module.exports.addBook = async function(req, res) {
     })
   }
 }
+
+module.exports.deleteBook = async function(req, res) {
+  try {
+    let id = req.params.id;
+    await Book.findByIdAndRemove({_id: new ObjectId(id)}); 
+    return res.status(200).send({
+      status: "ok",
+      data: id,
+      message: "Book Deleted",
+      error: undefined
+    })
+  } catch(err) {
+    console.log(err); 
+    return res.status(400).send({
+      status: "error",
+      data: {},
+      message: undefined,
+      error: "Error Deleting Book"
+    })
+  }
+}

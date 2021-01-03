@@ -13,8 +13,10 @@ module.exports = function(app, express) {
   // BOOKS
   app.get('/api/getBooks', bookController.getBooks);
   app.post('/api/addBook', bookController.addBook);  
+  app.delete('/api/deleteBook/:id', bookController.deleteBook);
 
   // TOPICS
   app.get('/api/getTopics', topicController.getTopics);
   app.post('/api/addTopic', topicController.addTopic); 
+  app.delete('/api/deleteTopic/:id', topicController.deleteTopic);
 }

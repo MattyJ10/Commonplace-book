@@ -55,3 +55,24 @@ module.exports.addTopic = async function(req, res) {
     })
   }
 }
+
+module.exports.deleteTopic = async function(req, res) {
+  try {
+    let id = req.params.id;
+    await Topic.findByIdAndRemove({_id: new ObjectId(id)}); 
+    return res.status(200).send({
+      status: "ok",
+      data: id,
+      message: "Topic Deleted",
+      error: undefined
+    })
+  } catch(err) {
+    console.log(err); 
+    return res.status(400).send({
+      status: "error",
+      data: {},
+      message: undefined,
+      error: "Error Deleting Topic"
+    })
+  }
+}

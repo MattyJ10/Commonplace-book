@@ -10,6 +10,7 @@
 .options-table th {
   background-color: var(--main-app-color);
   color: white;
+  font-weight: lighter;
 }
 
 .options-table td {
@@ -31,4 +32,8 @@
 .table-options-button:hover {
   background-color: #bbbbbb;
   cursor: pointer;
+}
+
+.table-options-button:focus {
+  outline: none;
 }

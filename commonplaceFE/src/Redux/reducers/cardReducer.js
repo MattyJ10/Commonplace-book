@@ -1,23 +1,14 @@
-import { UPSERT_CARD_BEGIN,
-         UPSERT_CARD_SUCCESS,
-         DELETE_CARD_BEGIN,
+import { UPSERT_CARD_SUCCESS,
          DELETE_CARD_SUCCESS,
-         FETCH_CARDS_BEGIN,
          FETCH_CARDS_SUCCESS,
 } from "../actions/cardActions";
 
 let initialCardState = {
   cards: [],
-  loading: false,
 }
 
 function cardReducer(state = initialCardState, action){
     switch(action.type) {
-      case UPSERT_CARD_BEGIN: 
-        return {
-          ...state, 
-          loading: true
-        }
       case UPSERT_CARD_SUCCESS:
         if (action.payload.isEdit) {
           let updatedCard = action.payload.card
@@ -27,19 +18,12 @@ function cardReducer(state = initialCardState, action){
               updatedCard :
               card
             ),
-            loading: false,
           }
         } else {
           return {
             ...state,
             cards: [...state.cards, action.payload.card],
-            loading: false,
           }
-        }
-      case DELETE_CARD_BEGIN:
-        return {
-          ...state, 
-          loading: true,
         }
       case DELETE_CARD_SUCCESS:
         let currentList = state.cards;
@@ -48,17 +32,10 @@ function cardReducer(state = initialCardState, action){
         return {
           ...state, 
           cards: newList,
-          loading: true,
         }
-      case FETCH_CARDS_BEGIN:
-        return {
-          ...state,
-          loading: true,
-        };
       case FETCH_CARDS_SUCCESS:
         return {
           ...state,
-          loading: false,
           cards: action.payload.cards,
         };
       default: 
