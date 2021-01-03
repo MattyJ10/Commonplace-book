@@ -7,15 +7,34 @@
   margin: 0px auto;
   width: 600px;
   background-color: #efefef;
-  border-radius: 20px;
+  border-radius: 5px;
   box-shadow: 3px 3px 4px #cccccc;
+  padding-bottom: 20px;
 }
 
 .flash-card-header {
   padding: 20px;
-  font-size: 25px;
+  font-size: 20px;
 }
 
 .flash-card-footer {
   padding: 20px;
 }
+
+.flash-card-header-button {
+  margin: 10px;
+  vertical-align: middle;
+  background-color: #dddddd;
+  border-radius: 3px;
+  border: 1px solid #577F39;
+  box-shadow: 1px 1px 1px #888888;
+}
+
+.flash-card-header-button:hover {
+  cursor: pointer;
+  background-color: #cccccc;
+}
+
+.flash-card-header-button:focus {
+  outline: none;
+} 

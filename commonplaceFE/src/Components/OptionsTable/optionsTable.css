@@ -1,0 +1,34 @@
+.options-table {
+  margin: auto;
+  text-align: left;
+  width: 80%;
+  border-collapse: collapse;
+  background-color: #fefefe;
+  margin-top: 20px;
+}
+
+.options-table th {
+  background-color: var(--main-app-color);
+  color: white;
+}
+
+.options-table td {
+  border-bottom: 2px solid #dddddd;
+}
+
+.options-table th, td {
+  padding: 5px;
+}
+
+.table-options-button {
+  margin: 0px 5px;
+  border: none;
+  box-shadow: 1px 1px 1px #888888;
+  padding: 3px 5px;
+  border-radius: 3px;
+}
+
+.table-options-button:hover {
+  background-color: #bbbbbb;
+  cursor: pointer;
+}

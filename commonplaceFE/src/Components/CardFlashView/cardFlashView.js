@@ -2,6 +2,8 @@ import React from 'react';
 import './cardFlashView.css';
 import IndividualCard from '../IndividualCard/individualCard';
 import LoadingSpinner from '../LoadingSpinner/loadingSpinner';
+import { BiChevronRight, BiChevronLeft } from "react-icons/bi";
+import { IconContext } from 'react-icons';
 
 export default class CardScreen extends React.Component {
 
@@ -71,7 +73,21 @@ export default class CardScreen extends React.Component {
         <div className="flash-card-container">
           {!deleting && cards.length > 0 && [
             <div className="flash-card-header" key="flash-card-header">
-             {"Card " + (currentCard + 1) + "/" + cards.length}
+              <IconContext.Provider value={{ style: {fontSize: '20px', verticalAlign: "middle"}}}>
+              <button 
+                disabled={deleting} 
+                onClick={() => this.decrementCard()}
+                className="flash-card-header-button"
+              ><BiChevronLeft/></button>
+            </IconContext.Provider>
+             {(currentCard + 1) + "/" + cards.length}
+             <IconContext.Provider value={{ style: {fontSize: '20px', verticalAlign: "middle"}}}>
+              <button 
+                disabled={deleting} 
+                onClick={() => this.incrementCard()}
+                className="flash-card-header-button"
+              ><BiChevronRight/></button>
+            </IconContext.Provider>
             </div>,
             <div className="flash-card-body" key="flash-card-body">
               <IndividualCard
@@ -89,12 +105,6 @@ export default class CardScreen extends React.Component {
           )}
           {cards.length == 0 && (
             <p>No Cards In View</p>
-          )}
-          {cards.length > 0 && (
-            <div className="flash-card-footer">
-              <button disabled={deleting} onClick={() => this.decrementCard()}>Previous Card</button>
-              <button disabled={deleting} onClick={() => this.incrementCard()}>Next Card</button>
-            </div>
           )}
         </div>
       </div>

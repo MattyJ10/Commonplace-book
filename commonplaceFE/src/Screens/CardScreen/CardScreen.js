@@ -8,7 +8,8 @@ import AddOrEditCard from '../../Modals/AddOrEditCard/addOrEditCard';
 import CardGridView from '../../Components/CardGridView/cardGridView';
 import CardFlashView from '../../Components/CardFlashView/cardFlashView';
 import LoadingSpinner from '../../Components/LoadingSpinner/loadingSpinner';
-
+import ManageBooks from '../../Components/ManageBooks/manageBooks'; 
+import BookGridView from '../../Components/BookGridView/bookGridView';
 
 class CardScreen extends React.Component {
 
@@ -76,6 +77,11 @@ class CardScreen extends React.Component {
             className="main-button"
             disabled={loading}
           >Flash View</button>
+          <button 
+            onClick={() => this.onNavChange('Manage Books')}
+            className="main-button"
+            disabled={loading}
+          >Manage Books</button>
         </div>
         {showComponent == "Grid View" && !loading && (
           <CardGridView
@@ -91,6 +97,14 @@ class CardScreen extends React.Component {
             onEdit={this.showModal}
           >
           </CardFlashView>
+        )}
+        {showComponent == "Manage Books" && !loading && (
+          // <ManageBooks
+          //   books={books}
+          // ></ManageBooks>
+          <BookGridView
+            books={books}
+          ></BookGridView>
         )}
         {loading && (
           <LoadingSpinner></LoadingSpinner>

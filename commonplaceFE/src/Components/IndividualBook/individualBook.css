@@ -1,0 +1,15 @@
+.individual-book-container {
+  display: inline-flex;
+  flex-direction: column;
+  vertical-align: middle;
+  height: 340px;
+  width: 250px;
+  background: linear-gradient(to right, rgb(14, 103, 54) 3px, rgba(255, 255, 255, 0.5) 5px, rgba(255, 255, 255, 0.25) 7px, rgba(255, 255, 255, 0.25) 10px, transparent 12px, transparent 16px, rgba(255, 255, 255, 0.25) 17px, transparent 22px) green;
+  box-shadow: 0 0 5px -1px black, inset -1px 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+.individual-book-title {
+  color: white; 
+  text-align: center;
+  font-size: 15px;
+}
