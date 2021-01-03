@@ -1,0 +1,82 @@
+:root {
+  --main-app-color: #577F39;
+  --secondary-app-color: #777777;
+  --accent-color: #cccccc;
+
+  --spinner-book1-start: #FFEBC2;
+  --spinner-book1-end: #FFD275;
+
+  --spinner-book2-start: #B4D39C;
+  --spinner-book2-end: #577F39;
+
+  --spinner-book3-start: #ADF4FF;
+  --spinner-book3-end: #009FB7;
+
+
+  --spinner-accent-start: #aaaaaa;
+  --spinner-accent-end: #000000;
+
+}
+
+body {
+  margin:0px;
+}
+
+.main-button {
+  background-color: #dddddd;
+  border: 1px solid #577F39;
+  box-shadow: 1px 2px 3px #888888;
+  border-radius: 5px;
+  margin: 0px 2px;
+}
+
+.main-button:hover {
+  background-color: #cccccc;
+  cursor: pointer;
+}
+
+.main-button:focus {
+  outline: none;
+}
+
+.fade-in {
+  animation: fadeIn ease 5s;
+  -webkit-animation: fadeIn ease 5s;
+  -moz-animation: fadeIn ease 5s;
+  -o-animation: fadeIn ease 5s;
+  -ms-animation: fadeIn ease 5s;
+}
+@keyframes fadeIn {
+  0% {opacity:0;}
+  10% {opacity:1;}
+  90% {opacity:1;}
+  100% {opacity:0;}
+}
+  
+@-moz-keyframes fadeIn {
+  0% {opacity:0;}
+  10% {opacity:1;}
+  80% {opacity:1;}
+  100% {opacity:0;}
+}
+  
+@-webkit-keyframes fadeIn {
+  0% {opacity:0;}
+  10% {opacity:1;}
+  80% {opacity:1;}
+  100% {opacity:0;}
+}
+  
+@-o-keyframes fadeIn {
+  0% {opacity:0;}
+  10% {opacity:1;}
+  80% {opacity:1;}
+  100% {opacity:0;}
+}
+  
+@-ms-keyframes fadeIn {
+  0% {opacity:0;}
+  10% {opacity:1;}
+  80% {opacity:1;}
+  100% {opacity:0;}
+}

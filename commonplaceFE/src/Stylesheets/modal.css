@@ -1,0 +1,97 @@
+.modal-container {
+  background-color: rgb(255, 255, 255, .7);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  text-align: center;
+  z-index: 50;
+}
+
+.modal-window {
+  position: absolute;
+  top: 50vh;
+  height: 80vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--main-app-color);
+  border-radius: 4px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white; 
+  min-width: 500px;
+  box-shadow: 3px 3px 10px #888888;
+}
+
+.modal-header {
+  color: white; 
+  padding: 10px; 
+  background-color: var(--main-app-color);
+  font-size: 20px;
+  position:sticky;
+  top:0;
+}
+
+.modal-body {
+  flex: 1; 
+  padding: 10px; 
+}
+
+.modal-footer {
+  padding: 10px; 
+  position: sticky;
+  bottom: 0; 
+  background-color: var(--main-app-color);
+}
+
+.modal-input-container {
+  width: 100%;
+  flex-grow: 1;
+}
+
+.modal-input-group {
+  width: 70%;
+  padding: 10px 0px;
+  margin: 0px auto;
+}
+
+.modal-input-label {
+  display: block;
+  margin: 5px auto;
+  text-align: left;
+  font-weight: bold;
+}
+
+.modal-input {
+  /* width: 60%; */
+  width: 100%;
+  margin: 0px auto;
+}
+
+.modal-input-error {
+  color: red; 
+  font-style: italic;
+  margin: 2px;
+  font-size: 13px;
+  text-align: left;
+  position: absolute;
+}
+
+.modal-inline-button {
+  width: 20%; 
+  display: inline-block;
+  font-size: 12px;
+}
+
+.modal-sd-inline-container {
+  display:inline-block;
+  width: 70%;
+}
+
+.modal-input-button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

@@ -1,0 +1,26 @@
+.message-container {
+  position: absolute;
+  top: 25px;
+  right: -125px;
+  float: right;
+  width: 250px;
+  transform: translateX(-50%);
+  color: white;
+  font-size: 20px;
+  z-index: 10000;
+  margin-top: 0px;
+  opacity: 1;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 3px 3px 5px #444444;
+}
+
+.display-message-success {
+  background-color: #21AB21;
+  border: 3px solid #177817
+}
+
+.display-message-error {
+  background-color: #CC2936;
+  border: 3px solid #9B2915;
+}
