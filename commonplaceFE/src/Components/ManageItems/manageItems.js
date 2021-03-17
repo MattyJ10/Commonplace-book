@@ -2,16 +2,17 @@ import React from 'react';
 import './manageItems.css';
 import OptionsTable from '../OptionsTable/optionsTable';
 import LoadingSpinner from '../LoadingSpinner/loadingSpinner';
+import AddOrEditBook from '../../Modals/AddOrEditBook/addOrEditBook'; 
 
-export default class CardScreen extends React.Component {
+export default class ManageItems extends React.Component {
 
   state = {
     loading: false,
+    showEditBook: false,
+    editingBook: false,
   }
 
   onDelete = (id) => {
-    console.log(this.props);
-    console.log("here");
     if (this.props.type == "Book") {
       this.setState({ loading: true })
       setTimeout(() => {
@@ -55,7 +56,6 @@ export default class CardScreen extends React.Component {
         {loading && (
           <LoadingSpinner></LoadingSpinner>
         )}
-       
       </div>
     )
   }

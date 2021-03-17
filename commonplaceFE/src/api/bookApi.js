@@ -1,8 +1,8 @@
 import { 
   fetchBooksSuccess, 
   fetchBooksFailure, 
-  addBookSuccess,
-  addBookFailure,
+  upsertBookSuccess,
+  upsertBookFailure,
   deleteBookSuccess,
   deleteBookFailure,
 } from '../Redux/actions/bookActions';
@@ -31,11 +31,12 @@ export function fetchBooks() {
   }
 }
 
-export function addBook(book) {
+export function upsertBook(book, isEdit) {
   return async dispatch => {
     try {
       let body = {
-        book
+        book,
+        isEdit
       };
       let request = await fetchWithTimeout("http://localhost:5005/api/addBook", {
         method: 'post',
@@ -48,15 +49,15 @@ export function addBook(book) {
       let response = await request.json();
 
       if (response.status == "ok") {
-        dispatch(addBookSuccess(response.data, response.message));
+        dispatch(upsertBookSuccess(response.data, response.message));
       } else {
-        dispatch(addBookFailure(response.error))
+        dispatch(upsertBookFailure(response.error))
       }
     } catch(error) {
       if (error.name === 'AbortError') {
         dispatch(setError("Timeout occurred adding book, try again later"))
       } else {
-        dispatch(addBookFailure(error))
+        dispatch(upsertBookFailure(error))
       }
       throw error; 
     }

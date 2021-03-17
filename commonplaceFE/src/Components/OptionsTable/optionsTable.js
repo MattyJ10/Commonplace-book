@@ -26,7 +26,7 @@ export default class OptionsTable extends React.Component {
                       <IconContext.Provider value={{ style: {fontSize: '15px', verticalAlign: "middle"}}}>
                         <button
                           className="table-options-button"
-                          onClick={() => onEdit(item, type)}
+                          onClick={() => onEdit(type, item)}
                         ><BiEdit/></button>
                       </IconContext.Provider>
                       <IconContext.Provider value={{ style: {fontSize: '15px', verticalAlign: "middle"}}}>

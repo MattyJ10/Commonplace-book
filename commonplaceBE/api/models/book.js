@@ -6,6 +6,7 @@ var bookSchema = new Schema({
   title: String,
   displayTitle: String,
   url: String,
+  author: String,
 })
 
 bookSchema.pre('save', function(next) {

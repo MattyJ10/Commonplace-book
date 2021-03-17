@@ -26,12 +26,12 @@ export class AddBook extends React.Component {
   }
 
   onAddNewBook = () => {
-    const { addBook, onAddBookSuccess, onAddBookFailure } = this.props; 
+    const { upsertBook, onAddBookSuccess, onAddBookFailure } = this.props; 
     const { newBook } = this.state;
     if (newBook.title.length > 0) {
       this.setState({ loading: true })
       setTimeout(() => {
-        addBook(newBook).then(() => {
+        upsertBook(newBook, false).then(() => {
           this.setState({ loading: false });
           onAddBookSuccess();
         }).catch((err) => {

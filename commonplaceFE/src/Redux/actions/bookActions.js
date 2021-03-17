@@ -1,8 +1,8 @@
 export const FETCH_BOOKS_SUCCESS = 'FETCH_BOOKS_SUCCESS';
 export const FETCH_BOOKS_FAILURE = 'FETCH_BOOKS_FAILURE';
 
-export const ADD_BOOK_SUCCESS = 'ADD_BOOK_SUCCESS';
-export const ADD_BOOK_FAILURE = 'ADD_BOOK_FAILURE';
+export const UPSERT_BOOK_SUCCESS = 'UPSERT_BOOK_SUCCESS';
+export const UPSERT_BOOK_FAILURE = 'UPSERT_BOOK_FAILURE';
 
 export const DELETE_BOOK_SUCCESS = 'DELETE_BOOK_SUCCESS';
 export const DELETE_BOOK_FAILURE = 'DELETE_BOOK_FAILURE';
@@ -17,14 +17,14 @@ export const fetchBooksFailure = error => ({
   error
 });
 
-export const addBookSuccess = (book, success) => ({
-  type: ADD_BOOK_SUCCESS,
-  payload: { book },
+export const upsertBookSuccess = (data, success) => ({
+  type: UPSERT_BOOK_SUCCESS,
+  payload: { book: data.book, isEdit: data.isEdit },
   success
 });
 
-export const addBookFailure = error => ({
-  type: ADD_BOOK_FAILURE,
+export const upsertBookFailure = error => ({
+  type: UPSERT_BOOK_FAILURE,
   error
 });
 

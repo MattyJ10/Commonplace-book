@@ -1,6 +1,6 @@
 import { 
   FETCH_BOOKS_SUCCESS,
-  ADD_BOOK_SUCCESS,
+  UPSERT_BOOK_SUCCESS,
   DELETE_BOOK_SUCCESS,
 } from "../actions/bookActions";
 
@@ -15,10 +15,23 @@ function bookReducer(state = initialBookState, action) {
         ...state,
         books: action.payload.books
       };
-    case ADD_BOOK_SUCCESS:
-      return {
-        ...state,
-        books: [...state.books, action.payload.book],
+    case UPSERT_BOOK_SUCCESS:
+      if (action.payload.isEdit) {
+        console.log("yes"); 
+        let updatedBook = action.payload.book;
+        return {
+          ...state, 
+          books: state.books.map(book => book._id === updatedBook._id ?
+            updatedBook :
+            book
+          )
+        }
+      } else {
+        console.log("no"); 
+        return {
+          ...state,
+          books: [...state.books, action.payload.book],
+        }
       }
     case DELETE_BOOK_SUCCESS:
       let currentList = state.books;

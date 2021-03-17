@@ -2,7 +2,7 @@ import React from 'react';
 import './CardScreen.css';
 import { connect } from "react-redux";
 import { upsertCard, deleteCard, fetchCards } from '../../api/cardApi';
-import { fetchBooks, addBook, deleteBook } from '../../api/bookApi';
+import { fetchBooks, upsertBook, deleteBook } from '../../api/bookApi';
 import { fetchTopics, addTopic, deleteTopic } from '../../api/topicApi';
 import AddOrEditCard from '../../Modals/AddOrEditCard/addOrEditCard';
 import CardGridView from '../../Components/CardGridView/cardGridView';
@@ -10,6 +10,7 @@ import CardFlashView from '../../Components/CardFlashView/cardFlashView';
 import LoadingSpinner from '../../Components/LoadingSpinner/loadingSpinner';
 import ManageItems from '../../Components/ManageItems/manageItems'; 
 import BookGridView from '../../Components/BookGridView/bookGridView';
+import AddOrEditBook from '../../Modals/AddOrEditBook/addOrEditBook';
 
 class CardScreen extends React.Component {
 
@@ -18,6 +19,7 @@ class CardScreen extends React.Component {
     this.state = {
       showComponent: "Grid View",
       showAddCardModal: false,
+      showEditBookModal: false,
       loading: true,
     }
   }
@@ -52,19 +54,19 @@ class CardScreen extends React.Component {
     }
   }
 
-  onEditItem = (type, item) => {
-    console.log(type);
-    console.log(item);
-    console.log("Need to show edit modal for item!");
+  onEditItem = (type, item = null) => {
+    if (type == "Book") {
+      this.setState({ showEditBookModal: true, editingBook: item, isEditBook: item ? true : false })
+    }
   }
 
   closeModal = () => {
-    this.setState({ showAddCardModal: false })
+    this.setState({ showAddCardModal: false, showEditBookModal: false })
   }
 
 	render() {
-    let { showComponent, showAddCardModal, editingCard, loading } = this.state;
-    let { cards, deleteCard, upsertCard, addBook, deleteBook, books, addTopic, deleteTopic, topics } = this.props;
+    let { showComponent, showAddCardModal, showEditBookModal, editingBook, editingCard, loading, isEditBook } = this.state;
+    let { cards, deleteCard, upsertCard, upsertBook, deleteBook, books, addTopic, deleteTopic, topics  } = this.props;
     return (
       <div className="home-container">
         <div className="subnav-container">
@@ -73,6 +75,11 @@ class CardScreen extends React.Component {
             className="main-button"
             disabled={loading}
           >Add Card</button>
+          <button 
+            onClick={() => this.onEditItem("Book")}
+            className="main-button"
+            disabled={loading}
+          >Add Book</button>
           <button 
             onClick={() => this.onNavChange('Grid View')}
             className="main-button"
@@ -142,10 +149,18 @@ class CardScreen extends React.Component {
             card={editingCard}
             addCard={upsertCard}
             books={books}
-            addBook={addBook}
+            upsertBook={upsertBook}
             topics={topics}
             addTopic={addTopic}
           ></AddOrEditCard>
+        )}
+        {showEditBookModal && (
+          <AddOrEditBook
+            book={editingBook}
+            onClose={this.closeModal}
+            upsertBook={upsertBook}
+            isEdit={isEditBook}
+          ></AddOrEditBook>
         )}
       </div>
     )
@@ -166,7 +181,7 @@ export default connect(mapStateToProps, {
   fetchCards, 
   upsertCard, 
   fetchBooks, 
-  addBook,
+  upsertBook,
   deleteBook,
   fetchTopics,
   addTopic,

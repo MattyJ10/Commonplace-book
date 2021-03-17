@@ -1,6 +1,5 @@
 import React from 'react'; 
 import '../../Stylesheets/modal.css';
-import isLoadingHOC from '../../HOCs/isLoadingHOC/isLoadingHOC'; 
 import SearchableDropdown from '../../Components/SearchableDropdown/searchableDropdown';
 import { AddTopic } from '../../Components/AddTopic/addTopic';
 import { AddBook } from '../../Components/AddBook/addBook';
@@ -59,7 +58,6 @@ export default class AddOrEditCard extends React.Component {
         try {
           await addCard(card, isEdit);
           self.setState({ loading: false })
-          console.log("success"); 
           onClose();
         } catch(e) {
           self.setState({ loading: false })
