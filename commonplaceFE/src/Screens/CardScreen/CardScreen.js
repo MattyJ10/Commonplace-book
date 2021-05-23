@@ -1,17 +1,11 @@
 import React from 'react'; 
 import './CardScreen.css';
 import { connect } from "react-redux";
-import { upsertCard, deleteCard, fetchCards } from '../../api/cardApi';
-import { fetchBooks, upsertBook, deleteBook } from '../../api/bookApi';
-import { fetchTopics, addTopic, deleteTopic } from '../../api/topicApi';
+import { deleteCard, upsertCard } from '../../api/cardApi';
 import AddOrEditCard from '../../Modals/AddOrEditCard/addOrEditCard';
 import CardGridView from '../../Components/CardGridView/cardGridView';
 import CardFlashView from '../../Components/CardFlashView/cardFlashView';
-import LoadingSpinner from '../../Components/LoadingSpinner/loadingSpinner';
-import ManageItems from '../../Components/ManageItems/manageItems'; 
-import BookGridView from '../../Components/BookGridView/bookGridView';
-import AddOrEditBook from '../../Modals/AddOrEditBook/addOrEditBook';
-
+import FilterModal from '../../Modals/FilterModal/filterModal';
 class CardScreen extends React.Component {
 
   constructor(props) {
@@ -19,128 +13,111 @@ class CardScreen extends React.Component {
     this.state = {
       showComponent: "Grid View",
       showAddCardModal: false,
-      showEditBookModal: false,
-      loading: true,
+      showFilterCardsModal: false,
+      filteredCards: props.cards,
+      filtersActive: false,
+      bodyFilter: "",
+      booksFilter: [],
+      topicsFilter: []
     }
-  }
-
-  componentDidMount() {
-    const { fetchCards, fetchBooks, fetchTopics } = this.props; 
-    let fetches = []; 
-    let self = this;
-    setTimeout(() => {
-      fetches.push(fetchCards()); 
-      fetches.push(fetchBooks());
-      fetches.push(fetchTopics());
-      Promise.all(fetches)
-        .then(() => {
-          self.setState({ loading: false }); 
-        })
-        .catch((err) => {
-          self.setState({ loading: false });
-        })
-    }, 500);
   }
 
   onNavChange = (destination) => {
     this.setState({ showComponent: destination })
   }
 
-  showModal = (card = null) => {
-    if (card) {
-      this.setState({ showAddCardModal: true, editingCard: card })
-    } else {
-      this.setState({ showAddCardModal: true, editingCard: null })
-    }
+  showCardModal = (card = null) => {
+    this.setState({ showAddCardModal: true, editingCard: card})
   }
 
-  onEditItem = (type, item = null) => {
-    if (type == "Book") {
-      this.setState({ showEditBookModal: true, editingBook: item, isEditBook: item ? true : false })
-    }
+  showFilterModal = () => {
+    this.setState({ showFilterCardsModal: true })
   }
 
   closeModal = () => {
-    this.setState({ showAddCardModal: false, showEditBookModal: false })
+    this.setState({ showAddCardModal: false, showFilterCardsModal: false });
+  }
+
+  onSubmitFilter = (bodyFilter, booksFilter, topicsFilter) => {
+    this.setState({ bodyFilter, booksFilter, topicsFilter, showFilterCardsModal: false, filterActive: true })
+  }
+
+  filterCards = (bodyContains = "", books = [], topics = []) => {
+    const { cards } = this.props;
+    if (bodyContains.length == 0 && books.length == 0 && topics.length == 0) {
+      return cards;
+    } else {
+      let filteredCards = cards.filter((card) => {
+        let bodyFilter = true;
+        let bookFilter = true;
+        let topicFilter = true;
+        if (bodyContains.length > 0) {
+          bodyFilter = card.body.includes(bodyContains); 
+        }
+        if (books.length > 0) {
+          bookFilter = books.includes(card.book._id); 
+        }
+        if (topics.length > 0) {
+          topicFilter = topics.includes(card.topic._id); 
+        }
+        return bodyFilter && bookFilter && topicFilter; 
+      })
+      return filteredCards; 
+    }
+  }
+
+  resetFilters = () => {
+    this.setState({ filterActive: false, bodyFilter: "", booksFilter: [], topicsFilter: []})
   }
 
 	render() {
-    let { showComponent, showAddCardModal, showEditBookModal, editingBook, editingCard, loading, isEditBook } = this.state;
-    let { cards, deleteCard, upsertCard, upsertBook, deleteBook, books, addTopic, deleteTopic, topics  } = this.props;
+    let { showComponent, showAddCardModal, editingCard, loading, showFilterCardsModal, filterActive, bodyFilter, booksFilter, topicsFilter } = this.state;
+    let { cards, deleteCard, upsertCard, upsertBook, books, upsertTopic, topics } = this.props;
     return (
-      <div className="home-container">
+      <div>
         <div className="subnav-container">
+        <button 
+          onClick={() => this.showFilterModal()}
+          className="main-button"
+          disabled={loading}
+        >Filter Cards</button>
+        {filterActive && (
           <button 
-            onClick={() => this.showModal()}
+            onClick={() => this.resetFilters()}
             className="main-button"
             disabled={loading}
-          >Add Card</button>
-          <button 
-            onClick={() => this.onEditItem("Book")}
-            className="main-button"
-            disabled={loading}
-          >Add Book</button>
-          <button 
-            onClick={() => this.onNavChange('Grid View')}
-            className="main-button"
-            disabled={loading}
-          >Grid View</button>
-          <button 
-            onClick={() => this.onNavChange('Flash View')}
-            className="main-button"
-            disabled={loading}
-          >Flash View</button>
-          <button 
-            onClick={() => this.onNavChange('Manage Books')}
-            className="main-button"
-            disabled={loading}
-          >Manage Books</button>
-          <button 
-            onClick={() => this.onNavChange('Manage Topics')}
-            className="main-button"
-            disabled={loading}
-          >Manage Topics</button>
+          >Clear Filters</button>
+        )}
+        <button 
+          onClick={() => this.showCardModal()}
+          className="main-button"
+          disabled={loading}
+        >Add Card</button>
+        <button 
+          onClick={() => this.onNavChange('Grid View')}
+          className="main-button"
+          disabled={loading}
+        >Grid View</button>
+        <button 
+          onClick={() => this.onNavChange('Flash View')}
+          className="main-button"
+          disabled={loading}
+        >Flash View</button>
         </div>
         {showComponent == "Grid View" && !loading && (
           <CardGridView
-            cards={cards}
+            cards={this.filterCards(bodyFilter, booksFilter, topicsFilter)}
             onDelete={deleteCard}
-            onEdit={this.showModal}
+            onEdit={this.showCardModal}
           ></CardGridView>
         )}
         {showComponent == "Flash View" && !loading && (
           <CardFlashView
             cards={cards}
             onDelete={deleteCard}
-            onEdit={this.showModal}
+            onEdit={this.showCardModal}
           >
           </CardFlashView>
-        )}
-        {showComponent == "Manage Books" && !loading && (
-          <ManageItems
-            items={books}
-            tableTitle="Books"
-            mainField="displayTitle"
-            deleteBook={deleteBook}
-            handleEdit={this.onEditItem}
-            type="Book"
-          ></ManageItems>
-          // <BookGridView
-          //   books={books}
-          // ></BookGridView>
-        )}
-        {showComponent == "Manage Topics" && !loading && (
-          <ManageItems
-            items={topics}
-            tableTitle="Topics"
-            mainField="displayTopic"
-            deleteTopic={deleteTopic}
-            handleEdit={this.onEditItem}
-            type="Topic"
-          ></ManageItems>
-        )}
-        {loading && (
-          <LoadingSpinner></LoadingSpinner>
         )}
         {showAddCardModal && (
           <AddOrEditCard
@@ -151,40 +128,24 @@ class CardScreen extends React.Component {
             books={books}
             upsertBook={upsertBook}
             topics={topics}
-            addTopic={addTopic}
+            addTopic={upsertTopic}
           ></AddOrEditCard>
         )}
-        {showEditBookModal && (
-          <AddOrEditBook
-            book={editingBook}
+        {showFilterCardsModal && (
+          <FilterModal
+            topics={topics}
+            books={books}
             onClose={this.closeModal}
-            upsertBook={upsertBook}
-            isEdit={isEditBook}
-          ></AddOrEditBook>
+            onSubmit={this.onSubmitFilter}
+          ></FilterModal>
         )}
       </div>
     )
 	}
 }
 
-const mapStateToProps = state => {
-  let obj = {
-    cards: state.cardReducer.cards,
-    books: state.bookReducer.books,
-    topics: state.topicReducer.topics
-  }
-  return obj; 
-}
-
-export default connect(mapStateToProps, {
-  deleteCard, 
-  fetchCards, 
-  upsertCard, 
-  fetchBooks, 
-  upsertBook,
-  deleteBook,
-  fetchTopics,
-  addTopic,
-  deleteTopic,
+export default connect(null, {
+  deleteCard,
+  upsertCard,
 })
 (CardScreen)

@@ -1,6 +1,6 @@
 import { 
   FETCH_TOPICS_SUCCESS,
-  ADD_TOPIC_SUCCESS,
+  UPSERT_TOPIC_SUCCESS,
   DELETE_TOPIC_SUCCESS,
 } from "../actions/topicActions";
 
@@ -15,10 +15,21 @@ function topicReducer(state = initialTopicState, action) {
         ...state,
         topics: action.payload.topics
       };
-    case ADD_TOPIC_SUCCESS:
-      return {
-        ...state,
-        topics: [...state.topics, action.payload.topic],
+    case UPSERT_TOPIC_SUCCESS:
+      if (action.payload.isEdit) {
+        let updatedTopic = action.payload.topic;
+        return {
+          ...state, 
+          topics: state.topics.map(topic => topic._id === updatedTopic._id ?
+            updatedTopic :
+            topic
+          )
+        }
+      } else {
+        return {
+          ...state,
+          topics: [...state.topics, action.payload.topic],
+        }
       }
     case DELETE_TOPIC_SUCCESS:
       let currentList = state.topics;

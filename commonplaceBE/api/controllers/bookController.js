@@ -1,6 +1,7 @@
 const Book = require('../models/book');
 const Card = require('../models/card'); 
 const ObjectId = require('mongoose').Types.ObjectId;
+const { convertValueToUpperCase } = require('../utils/utilityFunctions.js');
 
 module.exports.getBooks = async function(req, res) {
   let books;
@@ -27,19 +28,19 @@ module.exports.getBooks = async function(req, res) {
 module.exports.addBook = async function(req, res) {
   try {
     let book;
-    console.log(req.body.isEdit); 
     let isEdit = req.body.isEdit; 
     if (isEdit) {
       book = req.body.book;
     } else {
       book = new Book(req.body.book);
     }
+    book['displayTitle'] = convertValueToUpperCase(book['title']);
     await Book.updateOne({ _id: new ObjectId(book._id)}, {$set: book}, {upsert: true});
     if (isEdit) {
       let bookCopy = JSON.parse(JSON.stringify(book));
       delete bookCopy._id;
       delete bookCopy.__v;
-      await Card.update({ "book._id": new ObjectId(book._id)}, {$set: bookCopy})
+      await Card.update({ "book._id": new ObjectId(book._id)}, {$set: {book: book}})
     }
     return res.status(200).send({
       status: "ok",
@@ -61,7 +62,8 @@ module.exports.addBook = async function(req, res) {
 module.exports.deleteBook = async function(req, res) {
   try {
     let id = req.params.id;
-    await Book.findByIdAndRemove({_id: new ObjectId(id)}); 
+    await Book.findByIdAndRemove({_id: new ObjectId(id)});
+    await Card.update({ "book._id": new ObjectId(id)}, {$unset: {book: 1}}); 
     return res.status(200).send({
       status: "ok",
       data: id,

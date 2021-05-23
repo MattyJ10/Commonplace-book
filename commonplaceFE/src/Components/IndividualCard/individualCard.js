@@ -34,8 +34,8 @@ export default class IndividualCard extends React.Component {
       <div className={containerClass}>
         {!loading &&  [
           <div className="individual-card-header" key="individual-card-header">
-            <h1 className="individual-card-title">{card.book.displayTitle}</h1>
-            <h2 className="individual-card-title">{card.topic.displayTopic}</h2>
+            <h1 className="individual-card-title">{card.book ? card.book.displayTitle : ""}</h1>
+            <h2 className="individual-card-title">{card.topic ? card.topic.displayTopic : ""}</h2>
           </div>,
           <div className="individual-card-sub-header" key="individual-card-sub-header">
             <button className="main-button" onClick={() => onEdit(card)}>Edit</button>

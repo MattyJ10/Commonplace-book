@@ -16,7 +16,6 @@ export default class AddOrEditBook extends React.Component {
       authorInputError: false,
       loading: false,
     }
-    console.log(props);
   }
 
   handleInputChange = (event) => {
@@ -43,44 +42,20 @@ export default class AddOrEditBook extends React.Component {
     }
   }
 
-  onTitleChange = (event) => {
-    const { book } = this.state;
-    let updatedBook = {
-      ...book,
-      title: event.target.value,
-    }
-    let isError;
-    if (updatedBook.title.length == 0) {
-      isError = true; 
-    } else {
-      isError = false; 
-    }
-    this.setState({ book: updatedBook, titleInputError: isError })
-  }
-
-  onAuthorChange = (event) => {
-    const { book } = this.state;
-    if (event.target.value.length > 0) this.setState({ authorInputError: false })
-    let updatedBook = {
-      ...book,
-      author: event.target.value,
-    }
-    this.setState({ book: updatedBook })
-  }
-
   onSubmit = () => {
-    const { upsertBook, onClose, isEdit } = this.props; 
+    const { upsertBook, onClose, isEdit, refetchCards } = this.props; 
     const { book } = this.state;
-    console.log(isEdit);
-    if (book.title.length > 0 && book.author.length ) {
+    if (book.title.length > 0 && book.author.length > 0) {
       this.setState({ loading: true })
-      setTimeout(() => {
-        upsertBook(book, isEdit).then(() => {
+      setTimeout(async () => {
+        try {
+          await upsertBook(book, isEdit);
+          await refetchCards();
           this.setState({ loading: false });
-          onClose()
-        }).catch((err) => {
+          onClose();
+        } catch(error) {
           this.setState({ loading: false });
-        })
+        }
       }, 500)
     } else {
       this.setState({ titleInputError: book.title.length == 0, authorInputError: book.author.length == 0 })

@@ -5,7 +5,7 @@ import LoadingSpinner from '../LoadingSpinner/loadingSpinner';
 import { BiChevronRight, BiChevronLeft } from "react-icons/bi";
 import { IconContext } from 'react-icons';
 
-export default class CardScreen extends React.Component {
+export default class CardFlashView extends React.Component {
 
   constructor(props) {
     super(props);

@@ -1,4 +1,3 @@
-const mongoose = require('mongoose'); 
 const Card = require('../models/card');
 const ObjectId = require('mongoose').Types.ObjectId;
 
@@ -10,7 +9,6 @@ module.exports.addCard = async function(req, res) {
   } else {
     card = new Card(req.body.card);
   }
-  console.log(card);
   try {
     await Card.updateOne({ _id: new ObjectId(card._id) }, {$set: card}, {upsert: true});
     let successMessage;

@@ -1,0 +1,25 @@
+.dashboard-nav-container {
+  text-align: center;
+  background-color: var(--accent-color);
+}
+
+.dashboard-nav-button {
+  background-color: unset;
+  font-size: 18px;
+  margin: 0px 10px;
+  border: none;
+  padding: 10px;
+  box-sizing: border-box;
+  color: #777777;
+}
+
+.selected-dashboard-nav-button {
+  color: var(--main-app-color) !important;
+  border-bottom: 4px solid var(--main-app-color) !important;
+}
+
+.dashboard-nav-button:hover {
+  cursor: pointer;
+  color: black;
+  border-bottom: 4px solid black;
+}

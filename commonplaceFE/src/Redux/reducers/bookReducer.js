@@ -17,7 +17,6 @@ function bookReducer(state = initialBookState, action) {
       };
     case UPSERT_BOOK_SUCCESS:
       if (action.payload.isEdit) {
-        console.log("yes"); 
         let updatedBook = action.payload.book;
         return {
           ...state, 
@@ -27,7 +26,6 @@ function bookReducer(state = initialBookState, action) {
           )
         }
       } else {
-        console.log("no"); 
         return {
           ...state,
           books: [...state.books, action.payload.book],

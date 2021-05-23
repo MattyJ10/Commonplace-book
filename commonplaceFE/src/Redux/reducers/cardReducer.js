@@ -5,6 +5,7 @@ import { UPSERT_CARD_SUCCESS,
 
 let initialCardState = {
   cards: [],
+  filteredCards: [],
 }
 
 function cardReducer(state = initialCardState, action){

@@ -1,8 +1,8 @@
 export const FETCH_TOPICS_SUCCESS = 'FETCH_TOPICS_SUCCESS';
 export const FETCH_TOPICS_FAILURE = 'FETCH_TOPICS_FAILURE';
 
-export const ADD_TOPIC_SUCCESS = 'ADD_TOPIC_SUCCESS';
-export const ADD_TOPIC_FAILURE = 'ADD_TOPIC_FAILURE';
+export const UPSERT_TOPIC_SUCCESS = 'ADD_TOPIC_SUCCESS';
+export const UPSERT_TOPIC_FAILURE = 'ADD_TOPIC_FAILURE';
 
 export const DELETE_TOPIC_SUCCESS = 'DELETE_TOPIC_SUCCESS';
 export const DELETE_TOPIC_FAILURE = 'DELETE_TOPIC_FAILURE';
@@ -17,14 +17,14 @@ export const fetchTopicsFailure = error => ({
   error
 });
 
-export const addTopicSuccess = (topic, success) => ({
-  type: ADD_TOPIC_SUCCESS,
-  payload: { topic },
+export const upsertTopicSuccess = (data, success) => ({
+  type: UPSERT_TOPIC_SUCCESS,
+  payload: { topic: data.topic, isEdit: data.isEdit },
   success
 });
 
-export const addTopicFailure = error => ({
-  type: ADD_TOPIC_FAILURE,
+export const upsertTopicFailure = error => ({
+  type: UPSERT_TOPIC_FAILURE,
   error
 });
 

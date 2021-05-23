@@ -1,8 +1,8 @@
 import {
   fetchTopicsSuccess,
   fetchTopicsFailure,
-  addTopicSuccess,
-  addTopicFailure,
+  upsertTopicSuccess,
+  upsertTopicFailure,
   deleteTopicSuccess,
   deleteTopicFailure,
 } from '../Redux/actions/topicActions'; 
@@ -32,11 +32,12 @@ export function fetchTopics() {
   }
 }
 
-export function addTopic(topic) {
+export function upsertTopic(topic, isEdit) {
   return async dispatch => {
     try {
       let body = {
-        topic
+        topic,
+        isEdit
       }
       let request = await fetchWithTimeout("http://localhost:5005/api/addTopic", {
         method: 'post',
@@ -48,15 +49,15 @@ export function addTopic(topic) {
       });
       let response = await request.json();
       if (response.status == "ok") {
-        dispatch(addTopicSuccess(response.data, response.message));
+        dispatch(upsertTopicSuccess(response.data, response.message));
       } else {
-        dispatch(addTopicFailure(response.error));
+        dispatch(upsertTopicFailure(response.error));
       }
     } catch(error) {
       if (error.name === 'AbortError') {
         dispatch(setError("Timeout occurred adding topic, try again later"));
       } else {
-        dispatch(addTopicFailure(error));
+        dispatch(upsertTopicFailure(error));
       }
       // rethrow here so component's catch block is called as well
       throw error;

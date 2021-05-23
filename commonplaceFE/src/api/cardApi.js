@@ -1,16 +1,13 @@
 import {
-  upsertCardBegin,
   upsertCardSuccess,
   upsertCardError,
-  deleteCardBegin,
   deleteCardSuccess,
   deleteCardError,
-  fetchCardsBegin,
   fetchCardsSuccess,
-  fetchCardsError
+  fetchCardsError,
 } from '../Redux/actions/cardActions'; 
 import { setError } from '../Redux/actions/messageActions'; 
-import { fetchWithTimeout } from './apiUtils'; 
+import { fetchWithTimeout } from './apiUtils';
 
 export function upsertCard(card, isEdit) {
   return async dispatch => {
@@ -30,7 +27,7 @@ export function upsertCard(card, isEdit) {
       let response = await request.json();
 
       if (response.status == "ok") {
-        dispatch(upsertCardSuccess(response.data, response.message))
+        dispatch(upsertCardSuccess(response.data, response.message));
       } else {
         dispatch(upsertCardError(response.error))
       }
@@ -52,7 +49,6 @@ export function deleteCard(id) {
       let request = await fetchWithTimeout("http://localhost:5005/api/deleteCard/" + id, {timeout: 10000});
       let response = await request.json();
       if (response.status == "ok") {
-        console.log("dispatching success"); 
         dispatch(deleteCardSuccess(response.data, response.message));
       } else {
         dispatch(deleteCardError(response.error));
